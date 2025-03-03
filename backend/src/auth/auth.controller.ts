@@ -4,6 +4,7 @@ import { UsersService } from '../users/users.service';
 import { AuthService } from './auth.service';
 import { Public } from './decorators/public.decorator';
 import { LocalAuthGuard } from './guards/local-auth.guard';
+import { Role } from 'src/role.enum';
 
 @Controller('auth')
 export class AuthController {
@@ -24,5 +25,20 @@ export class AuthController {
   async register(@Body() body: CreateUserDto) {
     const user = await this.usersService.create(body);
     return user;
+  }
+
+  // créer un admin
+  @Public() 
+  @Post('create-admin')
+  async createAdmin(@Body() body: CreateUserDto) {
+    
+    const secretKey = body['secretKey']; 
+    if (secretKey !== process.env.ADMIN_SECRET_KEY) {
+      throw new Error('Invalid secret key');
+    }
+
+   
+    const admin = await this.usersService.createWithRole(body, Role.ADMIN);
+    return admin;
   }
 }
