@@ -1,0 +1,28 @@
+.carousel-item img {
+  width: 100%; 
+  height: 69vh; 
+  object-fit: cover;
+}
+
+.job-item {
+  background-color: #ffffff;
+  border: 2px solid orange; /* Change border color to orange */
+}
+
+.job-item .btn-primary,.btn {
+  background-color: white;
+  border: 1px solid orange;
+  border-radius: 0;
+  color: orange;
+}
+
+.job-item .btn-primary:hover {
+  background-color: rgb(229, 154, 56);
+  color: white;
+  border: 1px solid rgb(229, 154, 56);
+}
+
+.filter-section {
+  background-color: #f8f9fa;
+  margin-bottom: 20px;
+}

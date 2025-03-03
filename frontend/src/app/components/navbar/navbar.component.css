@@ -1,0 +1,16 @@
+.login-btn, .signup-btn,.logout-btn {
+  background-color: white;
+  border: 1px solid orange;
+  border-radius: 0;
+  color: orange;
+  padding: 5px 10px; /* Adjust padding to make the button smaller */
+  font-size: 14px; /* Adjust font size if needed */
+}
+
+
+.login-btn:hover, .signup-btn,.logout-btn:hover {
+  background-color: rgb(229, 154, 56);
+  color: white;
+  border: 1px solid rgb(229, 154, 56);
+
+}
