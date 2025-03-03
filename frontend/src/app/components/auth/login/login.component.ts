@@ -15,7 +15,7 @@ import { environment } from '../../../environments/environment';
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
-  constructor(private http: HttpClient,private router:Router) {}
+  constructor(private http: HttpClient, private router: Router, private authService: AuthService) {}
 
   user:any = {
     email: '',
@@ -23,17 +23,21 @@ export class LoginComponent {
   };
 
   login() {
-    this.http.post(`${environment.apiUrl}/auth/login`, this.user)
-      .subscribe(
-        (response) => {
-          console.log('login successful', response);
-          this.router.navigate(['/http://localhost:4200/home']); 
-          // Handle successful registration (e.g., redirect to login page)
-        },
-        (error) => {
-          console.error('Registration error', error);
-          // Handle error (e.g., show an error message)
-        }
-      );
+    this.authService.login(this.user.email, this.user.password).subscribe({
+      next: (response: any) => {
+        console.log('login successful', response);
+        const { access_token: token, role: userRole } = response;
+
+        this.authService.saveToken(token);
+
+        const redirectRoute = userRole === 'ADMIN' ? '/users-list' : '/home';
+        this.router.navigate([redirectRoute]);
+      },
+      error: (error) => {
+        console.error('Login error', error);
+        // Handle error (e.g., show an error message)
+        alert('Login failed. Please check your credentials and try again.');
+      }
+    });
   }
 }
