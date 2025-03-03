@@ -27,7 +27,7 @@ export class AuthController {
     return user;
   }
 
-  // créer un admin
+  // créer admin
   @Public() 
   @Post('create-admin')
   async createAdmin(@Body() body: CreateUserDto) {

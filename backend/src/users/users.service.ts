@@ -1,10 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { User } from './entities/user.entity';
 import * as bcrypt from 'bcryptjs';
 import { CreateUserDto } from './dto/create-user.dto';
 import { Role } from 'src/role.enum';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
 export class UsersService {
@@ -14,11 +15,42 @@ export class UsersService {
   ) {}
 
  
-  async findMany(query: any): Promise<User[]> {
-    
-    return this.usersRepository.find(query);
+  // Filtrer les utilisateurs par rôles (RH ou CANDIDAT)
+  async findUsersByRoles(roles: Role[], query: any): Promise<User[]> {
+    return this.usersRepository.find({
+      where: { role: In(roles) },
+      ...query,  
+    });
   }
 
+  // Récupérer un utilisateur par ID
+  async findOneById(id: number): Promise<User> {
+    const user = await this.usersRepository.findOne({ where: { id } });
+    if (!user) {
+      throw new NotFoundException(`Utilisateur avec l'ID ${id} non trouvé`);
+    }
+    return user;
+  }
+
+  //update user
+  async update(id: number, updateUserDto: UpdateUserDto): Promise<User> {
+    const user = await this.usersRepository.findOne({ where: { id } });
+    if (!user) {
+      throw new NotFoundException(`Utilisateur avec l'ID ${id} non trouvé`);
+    }
+    if (updateUserDto.email !== undefined) user.email = updateUserDto.email;
+    if (updateUserDto.name !== undefined) user.name = updateUserDto.name;
+    if (updateUserDto.password !== undefined) {
+      const salt = await bcrypt.genSalt();
+      user.password = await bcrypt.hash(updateUserDto.password, salt);
+    }
+    await this.usersRepository.save(user);
+    delete user.password; 
+    return user;
+  }
+
+  
+  //register candidat
   async create(dto: CreateUserDto): Promise<User> {
     const { email, password, name } = dto;
 
@@ -49,24 +81,31 @@ export class UsersService {
     });
   }
 
-  
-  async createWithRole(dto: CreateUserDto, role: Role): Promise<User> {
-    const { email, password, name } = dto;
+async createWithRole(dto: CreateUserDto, role: Role): Promise<{ user: User; plainPassword: string }> {
+  const { email, password, name } = dto;
 
-    const salt = await bcrypt.genSalt();
-    const hashedPassword = await bcrypt.hash(password, salt);
+  const salt = await bcrypt.genSalt();
+  const hashedPassword = await bcrypt.hash(password, salt);
 
-    const user = this.usersRepository.create({
-      email,
-      password: hashedPassword,
-      name,
-      role: role, 
-    });
+  const user = this.usersRepository.create({
+    email,
+    password: hashedPassword,
+    name,
+    role: role,
+  });
 
-    const newUser = await this.usersRepository.save(user);
-    delete newUser.password; 
-    return newUser;
+  const newUser = await this.usersRepository.save(user);
+  delete newUser.password; 
+  return { user: newUser, plainPassword: password }; 
+}
+
+  // supprimer un utilisateur
+  async delete(id: number): Promise<void> {
+    const user = await this.usersRepository.findOne({ where: { id } });
+    if (!user) {
+      throw new NotFoundException(`Utilisateur avec l'ID ${id} non trouvé`);
+    }
+    await this.usersRepository.delete(id);
   }
-
   
 }
