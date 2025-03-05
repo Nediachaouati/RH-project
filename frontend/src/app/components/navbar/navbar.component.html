@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="grey">
   <div class="container-fluid">
     <a class="navbar-brand" routerLink="/">
-      <img [src]="LOGO" alt="Logo">
+      <img [src]="logoUrl" alt="Logo" class="img-fluid">
     </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -23,7 +23,7 @@
       </ul>
       <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
         <li class="nav-item" *ngIf="!authService.isLoggedIn()">
-          <a class="nav-link btn btn-primary login-btn" routerLink="/login">Login</a>
+          <a class="nav-link btn btn-primary login-btn" routerLinkActive="/login" routerLink="/login">Login</a>
         </li>
         <li class="nav-item" *ngIf="!authService.isLoggedIn()">
           <a class="nav-link btn btn-primary signup-btn ms-2" routerLink="/register">Sign Up</a>

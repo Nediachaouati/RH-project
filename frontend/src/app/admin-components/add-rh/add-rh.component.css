@@ -1,0 +1,16 @@
+/* Add your styles here */
+.container {
+  margin-top:-5%;
+}
+.btn-primary {
+  background-color: white;
+  border: 1px solid orange;
+  border-radius: 0;
+  color: orange;
+}
+.btn-primary:hover {
+  background-color: orange;
+  border: 1px solid orange;
+  border-radius: 0;
+  color: rgb(255, 255, 255);
+}

@@ -1,1 +1,28 @@
-<p>rh-list works!</p>
+<div class="container users-list-container">
+  <div class="d-flex justify-content-end mb-3">
+    <button type="button" class="btn btn-primary" (click)="navigateToAddRh()">Add RH</button>
+  </div>
+  <table class="table table-striped table-hover">
+    <thead>
+      <tr>
+        <th scope="col">IDs</th>
+        <th scope="col">First</th>
+        <th scope="col">Last</th>
+        <th scope="col">Email</th>
+        <th scope="col" style="width: 150px;"></th>
+      </tr>
+    </thead>
+    <tbody class="table-group-divider">
+      <tr *ngFor="let rh of rhList">
+          <th>{{ rh.id }}</th>
+          <td>{{ rh.name }}</td>
+          <td>{{ rh.email }}</td>
+          <td>
+        <td>
+          <button type="button" class="btn btn-danger" (click)="deleteUser(rh.id)">Delete</button>&nbsp;
+          <button type="button" class="btn btn-warning">Edit</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
