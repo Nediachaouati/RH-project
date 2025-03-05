@@ -36,7 +36,7 @@ export class HomeComponent {
       alert('You have to log in first.');
       this.router.navigate(['/login']);
     } else {
-      // Logic for applying to the job
+      
       alert('Application submitted successfully.');
     }
   }

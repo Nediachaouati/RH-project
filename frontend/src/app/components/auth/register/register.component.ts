@@ -31,11 +31,11 @@ export class RegisterComponent {
         (response) => {
           console.log('Registration successful', response);
           this.router.navigate(['/login']); 
-          // Handle successful registration (e.g., redirect to login page)
+        
         },
         (error) => {
           console.error('Registration error', error);
-          // Handle error (e.g., show an error message)
+         
         }
       );
   }

@@ -3,7 +3,6 @@ import { CurrentUser } from '../auth/decorators/current-user.decorator';
 import { FindUsersDto } from './dto/find-users.dto';
 import { User } from './entities/user.entity';
 import { UsersService } from './users.service';
-import { AuthGuard } from '@nestjs/passport';
 import { Roles } from 'src/auth/decorators/roles.decorator';
 import { Role } from 'src/role.enum';
 import { RolesGuard } from 'src/auth/guards/roles.guard';
@@ -81,4 +80,5 @@ export class UsersController {
     await this.usersService.delete(+id);
     return { message: `Utilisateur avec l'ID ${id} supprimé avec succès` };
   }
+
 }

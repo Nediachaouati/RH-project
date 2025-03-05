@@ -99,7 +99,6 @@ async createWithRole(dto: CreateUserDto, role: Role): Promise<{ user: User; plai
   return { user: newUser, plainPassword: password }; 
 }
 
-  // supprimer un utilisateur
   async delete(id: number): Promise<void> {
     const user = await this.usersRepository.findOne({ where: { id } });
     if (!user) {
@@ -107,5 +106,6 @@ async createWithRole(dto: CreateUserDto, role: Role): Promise<{ user: User; plai
     }
     await this.usersRepository.delete(id);
   }
+
   
 }
