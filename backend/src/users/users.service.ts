@@ -23,6 +23,7 @@ export class UsersService {
     });
   }
 
+
   // Récupérer un utilisateur par ID
   async findOneById(id: number): Promise<User> {
     const user = await this.usersRepository.findOne({ where: { id } });
@@ -32,24 +33,49 @@ export class UsersService {
     return user;
   }
 
+
   //update user
-  async update(id: number, updateUserDto: UpdateUserDto): Promise<User> {
+  async update(id: number, updateUserDto: UpdateUserDto, photo?: Express.Multer.File): Promise<User> {
     const user = await this.usersRepository.findOne({ where: { id } });
     if (!user) {
       throw new NotFoundException(`Utilisateur avec l'ID ${id} non trouvé`);
     }
-    if (updateUserDto.email !== undefined) user.email = updateUserDto.email;
-    if (updateUserDto.name !== undefined) user.name = updateUserDto.name;
+
+    if (user.role === Role.CANDIDAT) {
+      if (updateUserDto.email !== undefined) user.email = updateUserDto.email;
+      if (updateUserDto.name !== undefined) user.name = updateUserDto.name;
+      if (updateUserDto.phoneNumber !== undefined) user.phoneNumber = updateUserDto.phoneNumber;
+      if (updateUserDto.address !== undefined) user.address = updateUserDto.address;
+      if (updateUserDto.birthDate !== undefined) user.birthDate = new Date(updateUserDto.birthDate);
+      if (updateUserDto.specialty !== undefined) user.specialty = updateUserDto.specialty;
+      if (updateUserDto.school !== undefined) user.school = updateUserDto.school;
+      if (updateUserDto.degree !== undefined) user.degree = updateUserDto.degree;
+      if (updateUserDto.graduationYear !== undefined) user.graduationYear = updateUserDto.graduationYear;
+      if (updateUserDto.experienceLevel !== undefined) user.experienceLevel = updateUserDto.experienceLevel;
+    } else if (user.role === Role.RH) {
+      if (updateUserDto.email !== undefined) user.email = updateUserDto.email;
+      if (updateUserDto.name !== undefined) user.name = updateUserDto.name;
+      if (updateUserDto.phoneNumber !== undefined) user.phoneNumber = updateUserDto.phoneNumber;
+      if (updateUserDto.address !== undefined) user.address = updateUserDto.address;
+      if (updateUserDto.birthDate !== undefined) user.birthDate = new Date(updateUserDto.birthDate);
+    }
+
     if (updateUserDto.password !== undefined) {
       const salt = await bcrypt.genSalt();
       user.password = await bcrypt.hash(updateUserDto.password, salt);
     }
+    //photo
+    if (photo) {
+    user.photo = `uploads/photos/${photo.filename}`;
+    }
+
     await this.usersRepository.save(user);
-    delete user.password; 
+    delete user.password;
     return user;
   }
 
   
+
   //register candidat
   async create(dto: CreateUserDto): Promise<User> {
     const { email, password, name } = dto;
@@ -99,6 +125,8 @@ async createWithRole(dto: CreateUserDto, role: Role): Promise<{ user: User; plai
   return { user: newUser, plainPassword: password }; 
 }
 
+
+//delete user
   async delete(id: number): Promise<void> {
     const user = await this.usersRepository.findOne({ where: { id } });
     if (!user) {

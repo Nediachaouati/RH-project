@@ -1,5 +1,5 @@
 import { Role } from "src/role.enum";
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity()
 export class User {
@@ -22,5 +22,39 @@ export class User {
     })
     role: Role; 
 
+   /* @Column({ default: false }) // pour soft delete
+    isDeleted: boolean;*/
+    @Column({nullable:true})
+    phoneNumber?: string;
+
+    @Column({nullable:true})
+    address?: string;
+
+    @Column({ type: 'date', nullable: true })
+    birthDate?: Date;
+
+    @Column({ nullable: true })
+    specialty?: string; 
+
+    @Column({ nullable: true })
+    school?: string; 
+
+    @Column({ nullable: true })
+    degree?: string; 
+
+    @Column({ nullable: true })
+    graduationYear?: string; 
+
+    @Column({ nullable: true })
+    experienceLevel?: string;
+
+    @Column({ nullable: true }) 
+    photo?: string;
+
+    @CreateDateColumn()
+    created_at:Date;
+
+    @UpdateDateColumn()
+    updated_at: Date;
 
 }

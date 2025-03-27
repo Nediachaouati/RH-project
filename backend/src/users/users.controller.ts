@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, Query, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Query, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { CurrentUser } from '../auth/decorators/current-user.decorator';
 import { FindUsersDto } from './dto/find-users.dto';
 import { User } from './entities/user.entity';
@@ -10,6 +10,9 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { MailerService } from '@nestjs-modules/mailer';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { extname } from 'path';
+import { diskStorage } from 'multer';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('users')
 export class UsersController {
@@ -38,11 +41,33 @@ export class UsersController {
     return user;
   }
 
-  // update users
+  // update profile users
   @UseGuards(JwtAuthGuard)
   @Put('profile')
-  async updateProfile(@CurrentUser() user: User, @Body() updateUserDto: UpdateUserDto) {
-    return this.usersService.update(user.id, updateUserDto);
+  @UseInterceptors(
+    FileInterceptor('photo', {
+      storage: diskStorage({
+        destination: './uploads/photos', 
+        filename: (req, file, cb) => {
+          const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
+          const fileExt = extname(file.originalname);
+          cb(null, `${file.fieldname}-${uniqueSuffix}${fileExt}`);
+        },
+      }),
+      fileFilter: (req, file, cb) => {
+        if (!file.mimetype.match(/\/(jpg|jpeg|png|gif)$/)) {
+          return cb(new Error('Seules les images sont autorisées (jpg, jpeg, png, gif)'), false);
+        }
+        cb(null, true);
+      },
+    }),
+  )
+  async updateProfile(
+    @CurrentUser() user: User,
+    @Body() updateUserDto: UpdateUserDto,
+    @UploadedFile() photo: Express.Multer.File, 
+  ) {
+    return this.usersService.update(user.id, updateUserDto, photo);
   }
 
   // add RH 
