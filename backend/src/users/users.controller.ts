@@ -24,16 +24,16 @@ export class UsersController {
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.ADMIN)
   @Get('rh')
-  findRH(@Query() query: FindUsersDto) {
-    return this.usersService.findUsersByRoles([Role.RH], query);  
+  findRH(@Query('search') search?: string) {
+    return this.usersService.findUsersByRoles([Role.RH], search);
   }
 
   // lister et filtrer uniquement les Candidats
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.ADMIN)
   @Get('candidats')
-  findCandidats(@Query() query: FindUsersDto) {
-    return this.usersService.findUsersByRoles([Role.CANDIDAT], query);  
+  findCandidats(@Query('search') search?: string) {
+    return this.usersService.findUsersByRoles([Role.CANDIDAT], search);
   }
 
   @Get('profile')

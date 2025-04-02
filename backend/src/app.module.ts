@@ -11,6 +11,9 @@ import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 import { join } from 'path';
 import { MailerModule } from '@nestjs-modules/mailer';
+import { JobOfferModule } from './job-offer/job-offer.module';
+import { ChatModule } from './chat/chat.module';
+
 
 
 @Module({
@@ -49,10 +52,10 @@ import { MailerModule } from '@nestjs-modules/mailer';
       username: 'root',
       password: '',
       database: 'db-rh',
-      entities: [User],
+      entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true,
     }),
-     AuthModule, UsersModule],
+     AuthModule, UsersModule, JobOfferModule, ChatModule],
   controllers: [AppController],
   providers: [
     AppService,{

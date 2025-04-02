@@ -16,21 +16,21 @@ export class UsersService {
 
  
   // Filtrer les utilisateurs par rôles (RH ou CANDIDAT)
-  async findUsersByRoles(roles: Role[], query: any): Promise<User[]> {
-    return this.usersRepository.find({
+  async findUsersByRoles(roles: Role[], search?: string): Promise<User[]> {
+    const users = await this.usersRepository.find({
       where: { role: In(roles) },
-      ...query,  
     });
-  }
 
-
-  // Récupérer un utilisateur par ID
-  async findOneById(id: number): Promise<User> {
-    const user = await this.usersRepository.findOne({ where: { id } });
-    if (!user) {
-      throw new NotFoundException(`Utilisateur avec l'ID ${id} non trouvé`);
+    if (search) {
+      const searchLower = search.toLowerCase();
+      return users.filter(user =>
+        (user.name?.toLowerCase().includes(searchLower) || false) ||
+        (user.email?.toLowerCase().includes(searchLower) || false) ||
+        (user.phoneNumber?.toLowerCase().includes(searchLower) || false)
+      );
     }
-    return user;
+
+    return users; 
   }
 
 
@@ -46,7 +46,7 @@ export class UsersService {
       if (updateUserDto.name !== undefined) user.name = updateUserDto.name;
       if (updateUserDto.phoneNumber !== undefined) user.phoneNumber = updateUserDto.phoneNumber;
       if (updateUserDto.address !== undefined) user.address = updateUserDto.address;
-      if (updateUserDto.birthDate !== undefined) user.birthDate = new Date(updateUserDto.birthDate);
+      if (updateUserDto.birthDate !== undefined) user.birthDate = updateUserDto.birthDate;
       if (updateUserDto.specialty !== undefined) user.specialty = updateUserDto.specialty;
       if (updateUserDto.school !== undefined) user.school = updateUserDto.school;
       if (updateUserDto.degree !== undefined) user.degree = updateUserDto.degree;
@@ -57,7 +57,7 @@ export class UsersService {
       if (updateUserDto.name !== undefined) user.name = updateUserDto.name;
       if (updateUserDto.phoneNumber !== undefined) user.phoneNumber = updateUserDto.phoneNumber;
       if (updateUserDto.address !== undefined) user.address = updateUserDto.address;
-      if (updateUserDto.birthDate !== undefined) user.birthDate = new Date(updateUserDto.birthDate);
+      if (updateUserDto.birthDate !== undefined) user.birthDate = updateUserDto.birthDate;
     }
 
     if (updateUserDto.password !== undefined) {

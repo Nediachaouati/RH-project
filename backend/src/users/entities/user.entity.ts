@@ -1,5 +1,6 @@
+import { JobOffer } from "src/job-offer/entities/job-offer.entity";
 import { Role } from "src/role.enum";
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity()
 export class User {
@@ -31,7 +32,7 @@ export class User {
     address?: string;
 
     @Column({ type: 'date', nullable: true })
-    birthDate?: Date;
+    birthDate?: string;
 
     @Column({ nullable: true })
     specialty?: string; 
@@ -56,5 +57,8 @@ export class User {
 
     @UpdateDateColumn()
     updated_at: Date;
+
+    @OneToMany(() => JobOffer, (jobOffer) => jobOffer.createdBy)
+    jobOffers: JobOffer[];
 
 }
