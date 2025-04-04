@@ -36,10 +36,13 @@ export class UsersController {
     return this.usersService.findUsersByRoles([Role.CANDIDAT], search);
   }
 
+  //get-profile
   @Get('profile')
-  getProfile(@CurrentUser() user: User) {
-    return user;
-  }
+  @UseGuards(JwtAuthGuard)
+  async getProfile(@CurrentUser() user: User) {
+  const fullUser = await this.usersService.findById(user.id);
+  return fullUser;
+}
 
   // update profile users
   @UseGuards(JwtAuthGuard)
