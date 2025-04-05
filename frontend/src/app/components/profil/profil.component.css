@@ -8,28 +8,36 @@ body {
 }
 
 .profile-button {
-    background: rgb(99, 39, 120);
-    box-shadow: none;
-    border: none
+    background-color: white;
+    border: 1px solid orange;
+    border-radius: 0;
+    color: orange;
+    padding: 5px 10px; /* Adjust padding to make the button smaller */
+    font-size: 14px; /* Adjust font size if needed */
 }
 
 .profile-button:hover {
-    background: #682773
+    background-color: rgb(229, 154, 56);
+    color: white;
+    border: 1px solid rgb(229, 154, 56);
 }
 
 .profile-button:focus {
-    background: #682773;
-    box-shadow: none
+    background-color: rgb(229, 154, 56);
+    color: white;
+    border: 1px solid rgb(229, 154, 56);
 }
 
 .profile-button:active {
-    background: #682773;
-    box-shadow: none
+    background-color: rgb(229, 154, 56);
+    color: white;
+    border: 1px solid rgb(229, 154, 56);
 }
 
 .back:hover {
-    color: #682773;
-    cursor: pointer
+    background-color: rgb(229, 154, 56);
+    color: white;
+    border: 1px solid rgb(229, 154, 56);
 }
 
 .labels {
@@ -42,3 +50,20 @@ body {
     cursor: pointer;
     border: solid 1px #BA68C8
 }
+.login-btn, .signup-btn,.logout-btn {
+    background-color: white;
+    border: 1px solid orange;
+    border-radius: 0;
+    color: orange;
+    padding: 5px 10px; /* Adjust padding to make the button smaller */
+    font-size: 14px; /* Adjust font size if needed */
+  }
+  
+  
+  .login-btn:hover, .signup-btn:hover,.logout-btn:hover {
+    background-color: rgb(229, 154, 56);
+    color: white;
+    border: 1px solid rgb(229, 154, 56);
+  
+  }
+  
