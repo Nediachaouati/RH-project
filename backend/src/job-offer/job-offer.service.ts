@@ -67,38 +67,73 @@ export class JobOfferService {
     await this.jobOfferRepository.delete(id);
   }
 
-  //get all active offer
-  async findAll(search?: string): Promise<JobOffer[]> {
+  //get all active offer with role 
+ async findAll(search?: string, user?: User): Promise<JobOffer[]> {
+  const currentDate = new Date().toISOString().split('T')[0];
+  let query = {};
+
+  // role rh voir juste vos propres offre
+  if (user && user.role === Role.RH) {
+    query = { where: { createdBy: { id: user.id } }, relations: ['createdBy'] };
+  } 
+  // Sinon (admin ou candidat ou public), récupérer toutes les offres
+  else {
+    query = { relations: ['createdBy'] };
+  }
+
+  const offers = await this.jobOfferRepository.find(query);
+
+  for (const offer of offers) {
+    if (offer.expirationDate && offer.expirationDate < currentDate && offer.isActive) {
+      offer.isActive = false;
+      await this.jobOfferRepository.save(offer);
+    }
+  }
+
+  let activeOffers = offers.filter(offer => offer.isActive);
+
+  if (search) {
+    const searchLower = search.toLowerCase();
+    activeOffers = activeOffers.filter(offer =>
+      offer.title.toLowerCase().includes(searchLower) ||
+      offer.description.toLowerCase().includes(searchLower) ||
+      offer.jobType.toLowerCase().includes(searchLower) ||
+      offer.requirements.toLowerCase().includes(searchLower) ||
+      String(offer.numberOfPositions).includes(searchLower) ||
+      offer.experience.toLowerCase().includes(searchLower) ||
+      offer.educationLevel.toLowerCase().includes(searchLower) ||
+      offer.salaryRange.toLowerCase().includes(searchLower) ||
+      (offer.gender?.toLowerCase().includes(searchLower) || false) ||
+      offer.language.toLowerCase().includes(searchLower)
+    );
+  }
+
+  return activeOffers;
+}
+
+
+  //pour récupérer une offre par ID
+  async findOne(id: number, user: User): Promise<JobOffer> {
+    const jobOffer = await this.jobOfferRepository.findOne({
+      where: { id },
+      relations: ['createdBy'],
+    });
+  
+    if (!jobOffer) {
+      throw new NotFoundException(`Offre d’emploi avec l’ID ${id} non trouvée`);
+    }
+  
+    if (user.role !== Role.RH || jobOffer.createdBy.id !== user.id) {
+      throw new ForbiddenException('Vous ne pouvez voir que vos propres offres');
+    }
+  
     const currentDate = new Date().toISOString().split('T')[0];
-    const offers = await this.jobOfferRepository.find();
-
-    for (const offer of offers) {
-      if (offer.expirationDate && offer.expirationDate < currentDate && offer.isActive) {
-        offer.isActive = false;
-        await this.jobOfferRepository.save(offer);
-      }
+    if (jobOffer.expirationDate && jobOffer.expirationDate < currentDate && jobOffer.isActive) {
+      jobOffer.isActive = false;
+      await this.jobOfferRepository.save(jobOffer);
     }
-
-    // Filtrer les offres actives par des mots clé
-    let activeOffers = offers.filter(offer => offer.isActive);
-
-    if (search) {
-      const searchLower = search.toLowerCase();
-      activeOffers = activeOffers.filter(offer =>
-        offer.title.toLowerCase().includes(searchLower) ||
-        offer.description.toLowerCase().includes(searchLower) ||
-        offer.jobType.toLowerCase().includes(searchLower) ||
-        offer.requirements.toLowerCase().includes(searchLower)||
-        String(offer.numberOfPositions).includes(searchLower)||
-        offer.experience.toLowerCase().includes(searchLower)||
-        offer.educationLevel.toLowerCase().includes(searchLower)||
-        offer.salaryRange.toLowerCase().includes(searchLower)||
-        (offer.gender?.toLowerCase().includes(searchLower) || false)||
-        offer.language.toLowerCase().includes(searchLower)
-      );
-    }
-
-    return activeOffers;
+  
+    return jobOffer;
   }
  
 }

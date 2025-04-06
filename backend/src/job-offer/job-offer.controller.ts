@@ -31,10 +31,10 @@ export class JobOfferController {
     return this.jobOfferService.remove(+id, req.user);
   }
 
-  //tous les users peuvent voir la liste des offers avec authentification+filter
+  //admin+candiat voir tout les offres actives dispo et rh voir juste vos propres offres avec authentification+filter
   @Get('all')
-  findAll(@Query('search') search?: string) {
-    return this.jobOfferService.findAll(search);
+  findAll(@Query('search') search?: string, @Request() req?: any) { 
+    return this.jobOfferService.findAll(search, req?.user);
   }
 
   //les users peuvent voir la liste des offers sans authentification (afficher dans la page d'acceuil)+filter
@@ -43,4 +43,11 @@ export class JobOfferController {
   findAllPublic(@Query('search') search?: string) {
     return this.jobOfferService.findAll(search);
   }
+
+  // récupérer une offre par ID
+  @Get(':id')
+  @Roles(Role.RH)
+  findOne(@Param('id') id: string, @Request() req) {
+  return this.jobOfferService.findOne(+id, req.user);
+}
 }
