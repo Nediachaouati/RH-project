@@ -34,6 +34,11 @@ export class AuthService {
       return payload.role;
     }
     return null;
+  } 
+  getUser(): { role: string } | null {
+    // Example implementation: Retrieve user from local storage or a similar source
+    const user = localStorage.getItem('user');
+    return user ? JSON.parse(user) : null;
   }
 
   logout(): void {
@@ -43,14 +48,5 @@ export class AuthService {
 
   isLoggedIn(): boolean {
     return !!localStorage.getItem('access_token');
-  }
-
-  getCurrentUser() {
-    const token = this.getToken();
-    if (token) {
-      const payload = JSON.parse(atob(token.split('.')[1]));
-      return payload;
-    }
-    return null;
   }
 }

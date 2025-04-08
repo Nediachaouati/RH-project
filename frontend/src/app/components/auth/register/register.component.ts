@@ -19,12 +19,23 @@ export class RegisterComponent {
   constructor(private http: HttpClient,private router:Router) {}
 
   user: User = {
+    id: 0, // Default value for ID
     email: '',
     password: '',
-    name: ''
+    name: '',
+    role: 'CANDIDAT', // Default role
+    phoneNumber: '',
+    address: '',
+    birthDate: undefined,
+    specialty: '',
+    school: '',
+    degree: '',
+    graduationYear: '',
+    experienceLevel: '',
+    photo: '',
+    created_at: new Date(),
+    updated_at: new Date()
   };
-
-
   register() {
     this.http.post(`${environment.apiUrl}/auth/register`, this.user)
       .subscribe(

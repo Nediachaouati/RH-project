@@ -1,0 +1,97 @@
+<div class="container mt-4">
+  <h2>Update Job Offer</h2>
+  <form>
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label for="title" class="form-label">Title</label>
+        <input type="text" class="form-control" id="title" [(ngModel)]="jobData.title" name="title">
+      </div>
+      <div class="col-md-6 mb-3">
+        <label for="jobType" class="form-label">Job Type</label>
+        <input type="text" class="form-control" id="jobType" [(ngModel)]="jobData.jobType" name="jobType">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label for="numberOfPositions" class="form-label">Number of Positions</label>
+        <input type="number" class="form-control" id="numberOfPositions" [(ngModel)]="jobData.numberOfPositions" name="numberOfPositions">
+      </div>
+      <div class="col-md-6 mb-3">
+        <label for="experience" class="form-label">Experience</label>
+        <input type="text" class="form-control" id="experience" [(ngModel)]="jobData.experience" name="experience">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12 mb-3">
+        <label for="description" class="form-label">Description</label>
+        <textarea class="form-control" id="description" [(ngModel)]="jobData.description" name="description"></textarea>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label for="educationLevel" class="form-label">Education Level</label>
+        <input type="text" class="form-control" id="educationLevel" [(ngModel)]="jobData.educationLevel" name="educationLevel">
+      </div>
+      <div class="col-md-6 mb-3">
+        <label for="salaryRange" class="form-label">Salary Range</label>
+        <input type="text" class="form-control" id="salaryRange" [(ngModel)]="jobData.salaryRange" name="salaryRange">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label for="gender" class="form-label">Gender</label>
+        <input type="text" class="form-control" id="gender" [(ngModel)]="jobData.gender" name="gender">
+      </div>
+      <div class="col-md-6 mb-3">
+        <label for="language" class="form-label">Language</label>
+        <input type="text" class="form-control" id="language" [(ngModel)]="jobData.language" name="language">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12 mb-3">
+        <label for="requirements" class="form-label">Requirements</label>
+        <textarea class="form-control" id="requirements" [(ngModel)]="jobData.requirements" name="requirements"></textarea>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label for="postedDate" class="form-label">Posted Date</label>
+        <input type="date" class="form-control" id="postedDate" [(ngModel)]="jobData.postedDate" name="postedDate">
+      </div>
+      <div class="col-md-6 mb-3">
+        <label for="expirationDate" class="form-label">Expiration Date</label>
+        <input type="date" class="form-control" id="expirationDate" [(ngModel)]="jobData.expirationDate" name="expirationDate">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label for="createdAt" class="form-label">Created At</label>
+        <input type="datetime-local" class="form-control" id="createdAt" [(ngModel)]="jobData.createdAt" name="createdAt">
+      </div>
+      <div class="col-md-6 mb-3">
+        <label for="updatedAt" class="form-label">Updated At</label>
+        <input type="datetime-local" class="form-control" id="updatedAt" [(ngModel)]="jobData.updatedAt" name="updatedAt">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label for="createdByName" class="form-label">Created By (Name)</label>
+        <input type="text" class="form-control" id="createdByName" [(ngModel)]="jobData.createdBy.name" name="createdByName">
+      </div>
+      <div class="col-md-6 mb-3">
+        <label for="createdByEmail" class="form-label">Created By (Email)</label>
+        <input type="email" class="form-control" id="createdByEmail" [(ngModel)]="jobData.createdBy.email" name="createdByEmail">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label for="isActive" class="form-label">Is Active</label>
+        <select class="form-control" id="isActive" [(ngModel)]="jobData.isActive" name="isActive">
+          <option [value]="true">Active</option>
+          <option [value]="false">Inactive</option>
+        </select>
+      </div>
+    </div>
+    <button type="button" class="btn btn-primary" (click)="updateJob()">Update Job</button>
+  </form>
+</div>

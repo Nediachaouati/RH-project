@@ -12,8 +12,9 @@ import { AuthService } from '../../services/auth.service';
   selector: 'app-profil',
   imports: [
     CommonModule,
-    FormsModule, // Add FormsModule here
+    FormsModule, 
   ],
+  standalone: true,
   templateUrl: './profil.component.html',
   styleUrl: './profil.component.css'
 })
@@ -28,23 +29,30 @@ export class ProfilComponent implements OnInit {
     this.userService.getProfile().subscribe({
       next: (profile) => {
         this.user = profile;
-        console.log('User profile fetched:', this.user); // Debugging
+
+        // Prepend backend URL to the photo path if it exists
+        if (this.user.photo) {
+          this.user.photo = `http://localhost:3000/${this.user.photo}`;
+        }
+
+        console.log('User profile photo:', this.user.photo);
+        console.log('User profile fetched:', this.user);
       },
       error: (err) => console.error('Error fetching profile:', err)
     });
-
   }
+  // .
   editProfile(): void {
     console.log('Edit Profile button clicked');
-    // Add logic to enable editing of the form fields
+   
   }
   
   saveProfile(): void {
     console.log('Save Profile button clicked');
-    // Add logic to save the updated profile
+   
   }
   toggleEdit(): void {
-    this.isEditing = false; // Toggle the editing state
+    this.isEditing = false; 
     console.log('Edit mode:', this.isEditing);
   }
   isCandidat(): boolean {
@@ -57,7 +65,7 @@ export class ProfilComponent implements OnInit {
         next: (updatedUser) => {
           console.log('Profile updated successfully:', updatedUser);
           alert('Profile updated successfully!');
-          this.isEditing = true; // Disable editing after saving
+          this.isEditing = true; 
         },
         error: (err) => {
           console.error('Error updating profile:', err);

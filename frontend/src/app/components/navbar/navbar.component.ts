@@ -3,6 +3,8 @@ import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
+import { get } from 'node:http';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-navbar',
@@ -12,14 +14,30 @@ import { Router } from '@angular/router';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent { 
-  LOGO: string = '../../../assests/icon.png';
-  logoUrl: string = 'assets/logo.png'; 
+  LOGO: string = 'https://upload.wikimedia.org/wikipedia/commons/2/2b/RH_logo.svg';
+  logoUrl: string = 'https://upload.wikimedia.org/wikipedia/commons/2/2b/RH_logo.svg'; // Update the path to the rh.jpg image
 
-  constructor(public authService: AuthService, private router: Router) {}
+  user: any ;
 
+  constructor(public authService: AuthService,public userService:UserService, private router: Router) {}
+  ngOnInit() {
+    this.userService.getProfile().subscribe(
+      (profile) => {
+        this.user = profile; // Store the full user profile
+        console.log(this.user); // Verify the user object in the console
+      },
+      (error) => {
+        console.error('Error fetching profile:', error);
+      }
+    );
+   }
+   goToProfile() {
+    this.router.navigate(['/profile'], { state: { user: this.user } });
+  }
   logout() {
     this.authService.logout();
   }
+
 
   isAdmin(): boolean {
     return this.authService.getUserRole()=='ADMIN';

@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="grey">
   <div class="container-fluid">
     <a class="navbar-brand" routerLink="/">
-      <img [src]="logoUrl" alt="Logo" class="img-fluid">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/2/2b/RH_logo.svg" alt="Logo" class="img-fluid" style="width: 50px; height: 20px;">
     </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -22,6 +22,35 @@
         </li>
       </ul>
       <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+   
+        <li class="nav-item dropdown" *ngIf="authService.isLoggedIn()">
+        <a 
+          class="nav-link dropdown-toggle d-flex align-items-center" 
+          href="#" 
+          id="profileDropdown" 
+          role="button" 
+          data-bs-toggle="dropdown" 
+          aria-expanded="false">
+          <img 
+            [src]="user?.photo || 'https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg'" 
+            alt="Profile" 
+            class="rounded-circle" 
+            style="width: 40px; height: 40px; object-fit: cover;">
+          <span class="ms-2">{{ this.user.name || 'Guest' }}</span>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
+          <li>
+            <a class="dropdown-item" routerLink="/profile">Voir Profil</a>
+          </li>
+        
+          <li>
+            <hr class="dropdown-divider">
+          </li>
+          <li>
+            <a class="dropdown-item"  (click)="logout()">Logout</a>
+          </li>
+        </ul>
+      </li>
         <li class="nav-item" *ngIf="!authService.isLoggedIn()">
           <a class="nav-link btn btn-primary login-btn" routerLinkActive="/login" routerLink="/login">Login</a>
         </li>
@@ -29,7 +58,7 @@
           <a class="nav-link btn btn-primary signup-btn ms-2" routerLink="/register">Sign Up</a>
         </li>
         <li class="nav-item" *ngIf="authService.isLoggedIn()">
-          <a class="nav-link btn btn-primary logout-btn ms-2" (click)="logout()">Logout</a>
+          <a class="nav-link btn btn-primary logout-btn ms-2"style="margin-top: 10px;" (click)="logout()">Logout</a>
         </li>
       </ul>
     </div>

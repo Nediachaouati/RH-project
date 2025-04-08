@@ -30,7 +30,7 @@ export class LoginComponent {
 
         this.authService.saveToken(token);
 
-        const redirectRoute = userRole === 'ADMIN' ? '/users-list' : '/home';
+        const redirectRoute = userRole === 'ADMIN' ? '/' : '/home';
         this.router.navigate([redirectRoute]);
       },
       error: (error) => {
