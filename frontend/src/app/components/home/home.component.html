@@ -5,13 +5,13 @@
       <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
     </div>
     <div class="carousel-inner">
+      <div class="carousel-item ">
+        <img src="https://kentia-rh.com/web/image/hr.job/920/banner" alt="...">
+      </div>
       <div class="carousel-item active">
-        <img src="https://img.freepik.com/premium-photo/job-offer-text-page_218381-1103.jpg?semt=ais_hybrid"  alt="...">
+        <img src="https://www.entreprises.cci-paris-idf.fr/documents/20152/12001228/RH-Accompagnement-Ressources-humaines-recruter.jpg/be3d64bc-ade2-7b0e-ed72-f4d94c56bafc?t=1630078476733" alt="...">
       </div>
-      <div class="carousel-item">
-        <img src="https://www.gerinter.fr/wp-content/uploads/2024/01/choisir-offre-emploi.jpeg"alt="...">
-      </div>
- 
+      
     </div>
     <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
       <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -21,35 +21,35 @@
       <span class="carousel-control-next-icon" aria-hidden="true"></span>
       <span class="visually-hidden">Next</span>
     </button>
-  </div><br><br><br> <h2>Job Offers</h2><br>
+  </div>
+  <br><br><br>
+  <h2>Job Offers</h2>
+  <br>
   <div class="row">
     <div class="col-md-3">
       <div class="filter-section p-3 border rounded">
         <h5>Filter</h5>
-        <!-- Add your filter options here -->
         <div class="form-group">
-          <label for="location">Location</label>
-          <input type="text" class="form-control" id="location" placeholder="Enter location">
+          <label for="jobType">Job Title</label>
+          <input type="text" class="form-control" id="jobType" [(ngModel)]="filterJobTitle" placeholder="Enter job title">
         </div>
-        <div class="form-group">
-          <label for="company">Company</label>
-          <input type="text" class="form-control" id="company" placeholder="Enter company">
-        </div>
-        <button class="btn btn-primary mt-3">Apply Filters</button>
+        <button class="btn btn-primary mt-3" (click)="applyFilters()">Apply Filters</button>
       </div>
     </div>
     <!-- Job Listings Section -->
     <div class="col-md-9 a">
       <div class="job-listings">
-        <div *ngFor="let job of jobListings" class="job-item d-flex justify-content-between align-items-center p-3 mb-3 border rounded">
+        <div *ngFor="let job of filteredJobListings" class="job-item d-flex justify-content-between align-items-center p-3 mb-3 border rounded">
           <div>
             <h5 class="mb-1">{{ job.title }}</h5>
-            <p class="mb-1">{{ job.company }} - {{ job.location }}</p>
-            <small>{{ job.date }}</small>
+            <p class="mb-1">{{ job.createdBy?.name || 'Unknown Company' }} - {{ job?.language }}</p>
+            <small>Posted on: {{ job.postedDate }}</small>
           </div>
           <div class="d-flex">
             <button class="btn btn-primary me-2" (click)="openJobDetails(job)" data-bs-toggle="modal" data-bs-target="#jobDetailsModal">Voir Plus</button>
-            <button class="btn btn-primary" (click)="applyForJob()">Postuler</button>
+            <button class="btn btn-primary" (click)="applyForJob()" *ngIf="isCandidat()">Postuler</button>
+            <button class="btn btn-primary" *ngIf="isRH()" (click)="deleteJob(job.id)">Delete</button>
+            <button class="btn btn-primary" *ngIf="isRH()" [routerLink]="['/update-job', job.id]">Update</button>
           </div>
         </div>
       </div>
@@ -66,14 +66,113 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="closeJobDetails()"></button>
       </div>
       <div class="modal-body">
-        <p><strong>Company:</strong> {{ selectedJob?.company }}</p>
-        <p><strong>Location:</strong> {{ selectedJob?.location }}</p>
-        <p><strong>Date:</strong> {{ selectedJob?.date }}</p>
+        <p><strong>Company:</strong> {{ selectedJob?.createdBy?.name || 'Unknown Company' }}</p>
+        <p><strong>Language:</strong> {{ selectedJob?.language }}</p>
+        <p><strong>Date:</strong> {{ selectedJob?.postedDate }}</p>
         <p><strong>Description:</strong> {{ selectedJob?.description }}</p>
+        <p><strong>Number of Positions:</strong> {{ selectedJob?.numberOfPositions }}</p>
+        <p><strong>Job Type:</strong> {{ selectedJob?.jobType }}</p>
+        <p><strong>Experience:</strong> {{ selectedJob?.experience }}</p>
+        <p><strong>Education Level:</strong> {{ selectedJob?.educationLevel }}</p>
+        <p><strong>Salary Range:</strong> {{ selectedJob?.salaryRange }}</p>
+        <p><strong>Gender:</strong> {{ selectedJob?.gender || 'Not Specified' }}</p>
+        <p><strong>Requirements:</strong> {{ selectedJob?.requirements }}</p>
+        <p><strong>Expiration Date:</strong> {{ selectedJob?.expirationDate }}</p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="closeJobDetails()">Close</button>
-        <button type="button" class="btn btn-primary" (click)="applyForJob()">Postuler</button>
+        <button type="button" class="btn btn-primary" (click)="applyForJob()" *ngIf="isCandidat()">Postuler</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+ <!-- Add Offer Button -->
+ <div class="text-end mb-3" *ngIf="isRH()">
+  <button class="btn btn-primary addoff" data-bs-toggle="modal" data-bs-target="#addOfferModal">Add Offer</button>
+</div>
+
+<!-- Add Offer Modal -->
+<div class="modal fade" id="addOfferModal" tabindex="-1" aria-labelledby="addOfferModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addOfferModalLabel">Add Job Offer</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="title" class="form-label">Title</label>
+              <input type="text" class="form-control" id="title" [(ngModel)]="newJobOffer.title" name="title" placeholder="Enter job title">
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="jobType" class="form-label">Job Type</label>
+              <input type="text" class="form-control" id="jobType" [(ngModel)]="newJobOffer.jobType" name="jobType" placeholder="Enter job type (e.g., Full-Time)">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="numberOfPositions" class="form-label">Number of Positions</label>
+              <input type="number" class="form-control" id="numberOfPositions" [(ngModel)]="newJobOffer.numberOfPositions" name="numberOfPositions" placeholder="Enter number of positions">
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="experience" class="form-label">Experience</label>
+              <input type="text" class="form-control" id="experience" [(ngModel)]="newJobOffer.experience" name="experience" placeholder="Enter experience required">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="educationLevel" class="form-label">Education Level</label>
+              <input type="text" class="form-control" id="educationLevel" [(ngModel)]="newJobOffer.educationLevel" name="educationLevel" placeholder="Enter education level">
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="salaryRange" class="form-label">Salary Range</label>
+              <input type="text" class="form-control" id="salaryRange" [(ngModel)]="newJobOffer.salaryRange" name="salaryRange" placeholder="Enter salary range">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="language" class="form-label">Language</label>
+              <input type="text" class="form-control" id="language" [(ngModel)]="newJobOffer.language" name="language" placeholder="Enter language">
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="gender" class="form-label">Gender</label>
+              <input type="text" class="form-control" id="gender" [(ngModel)]="newJobOffer.gender" name="gender" placeholder="Enter gender (optional)">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12 mb-3">
+              <label for="description" class="form-label">Description</label>
+              <textarea class="form-control" id="description" [(ngModel)]="newJobOffer.description" name="description" placeholder="Enter job description"></textarea>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="postedDate" class="form-label">Posted Date</label>
+              <input type="date" class="form-control" id="postedDate" [(ngModel)]="newJobOffer.postedDate" name="postedDate">
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="expirationDate" class="form-label">Expiration Date</label>
+              <input type="date" class="form-control" id="expirationDate" [(ngModel)]="newJobOffer.expirationDate" name="expirationDate">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12 mb-3">
+              <label for="requirements" class="form-label">Requirements</label>
+              <textarea class="form-control" id="requirements" [(ngModel)]="newJobOffer.requirements" name="requirements" placeholder="Enter job requirements"></textarea>
+            </div>
+          </div>
+          <div class="form-check mb-3">
+            <input class="form-check-input" type="checkbox" id="isActive" [(ngModel)]="newJobOffer.isActive" name="isActive">
+            <label class="form-check-label" for="isActive">Is Active</label>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-primary" (click)="addJobOffer()">Add</button>
+          </div>
+        </form>
       </div>
     </div>
   </div>

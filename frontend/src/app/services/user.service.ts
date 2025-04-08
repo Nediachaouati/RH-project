@@ -18,7 +18,9 @@ export class UserService {
       Authorization: `Bearer ${token}`
     });
   }
-
+getProfile(): Observable<User> {
+  return this.http.get<User>(`${this.apiUrl}/profile`, { headers: this.getAuthHeaders() });
+}
   getRHList(): Observable<User[]> {
     return this.http.get<User[]>(`${this.apiUrl}/rh`, { headers: this.getAuthHeaders() });
   }
@@ -30,6 +32,8 @@ export class UserService {
   deleteUser(id: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}/${id}`, { headers: this.getAuthHeaders() });
   }
-  
+  updateProfile(user: User): Observable<User> {
+    return this.http.put<User>(`${this.apiUrl}/profile`, user, { headers: this.getAuthHeaders() });
+  }
 
 }

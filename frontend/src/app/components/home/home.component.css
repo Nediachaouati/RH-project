@@ -15,7 +15,27 @@
   border-radius: 0;
   color: orange;
 }
+.job-item {
+  min-height: 100px; /* Ensure enough height for job items */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
 
+.job-listings {
+  max-height: 600px; /* Set a maximum height for the job listings container */
+  overflow-y: auto; /* Enable scrolling if content overflows */
+}
+.addoff{
+  margin-right: 50px;
+  margin-top: 50px;
+
+}
+.addoff:hover{
+  background-color: #f8f9fa;
+  color: orange;
+  border: 1px solid orange;
+}
 .job-item .btn-primary:hover {
   background-color: rgb(229, 154, 56);
   color: white;
