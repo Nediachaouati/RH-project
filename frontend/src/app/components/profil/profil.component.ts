@@ -61,7 +61,9 @@ export class ProfilComponent implements OnInit {
 
   updateProfile(): void {
     if (this.user) {
-      this.userService.updateProfile(this.user).subscribe({
+      const { password, ...userWithoutPassword } = this.user; // Exclude password
+      console.log('Payload being sent:', userWithoutPassword);
+      this.userService.updateProfile(userWithoutPassword).subscribe({
         next: (updatedUser) => {
           console.log('Profile updated successfully:', updatedUser);
           alert('Profile updated successfully!');

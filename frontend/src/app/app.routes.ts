@@ -8,6 +8,7 @@ import { RhListComponent } from './admin-components/rh-list/rh-list.component';
 import { ProfilComponent } from './components/profil/profil.component';
 import { AddRhComponent } from './admin-components/add-rh/add-rh.component';
 import { UpdateJobComponent } from './components/update-job/update-job.component';
+import { UpdateUserComponent } from './admin-components/update-user/update-user.component';
 
 export const routes: Routes = [
     { path: '', component: HomeComponent }, 
@@ -19,6 +20,7 @@ export const routes: Routes = [
     { path: 'rh-list', component: RhListComponent },
     { path: 'profile', component: ProfilComponent },
     { path: 'add-rh', component: AddRhComponent },
-    { path: 'update-job/:id', component: UpdateJobComponent }
+    { path: 'update-user/:id', component: UpdateUserComponent },
+
 
   ];
