@@ -24,7 +24,13 @@ getProfile(): Observable<User> {
   getRHList(): Observable<User[]> {
     return this.http.get<User[]>(`${this.apiUrl}/rh`, { headers: this.getAuthHeaders() });
   }
+  getUserById(id: string): Observable<any> {
+    return this.http.get(`${this.apiUrl}/${id}`);
+  }
 
+  updateUser(id: string, user: any): Observable<any> {
+    return this.http.put(`${this.apiUrl}/${id}`, user);
+  }
   getCandidatesList(): Observable<User[]> {
     return this.http.get<User[]>(`${this.apiUrl}/candidats`, { headers: this.getAuthHeaders() });
   }
