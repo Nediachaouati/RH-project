@@ -77,6 +77,10 @@ export class HomeComponent implements OnInit {
  isCandidat(): boolean {
     return this.authService.getUserRole()=='CANDIDAT';
   }
+  isAdmin(): boolean {
+    return this.authService.getUserRole()=='ADMIN';
+  }
+
 
   openJobDetails(job: JobOffer): void {
     this.selectedJob = job;

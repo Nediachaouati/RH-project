@@ -7,7 +7,6 @@
       <tr>
         <th scope="col">IDs</th>
         <th scope="col">First</th>
-        <th scope="col">Last</th>
         <th scope="col">Email</th>
         <th scope="col" style="width: 150px;"></th>
       </tr>
@@ -20,7 +19,6 @@
           <td>
         <td>
           <button type="button" class="btn btn-danger" (click)="deleteUser(rh.id)">Delete</button>&nbsp;
-          <button type="button" class="btn btn-warning" [routerLink]="['/update-user', rh.id]">Edit</button>        </td>
       </tr>
     </tbody>
   </table>

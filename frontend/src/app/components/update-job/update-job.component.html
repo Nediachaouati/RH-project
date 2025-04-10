@@ -63,35 +63,8 @@
         <input type="date" class="form-control" id="expirationDate" [(ngModel)]="jobData.expirationDate" name="expirationDate">
       </div>
     </div>
-    <div class="row">
-      <div class="col-md-6 mb-3">
-        <label for="createdAt" class="form-label">Created At</label>
-        <input type="datetime-local" class="form-control" id="createdAt" [(ngModel)]="jobData.createdAt" name="createdAt">
-      </div>
-      <div class="col-md-6 mb-3">
-        <label for="updatedAt" class="form-label">Updated At</label>
-        <input type="datetime-local" class="form-control" id="updatedAt" [(ngModel)]="jobData.updatedAt" name="updatedAt">
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-6 mb-3">
-        <label for="createdByName" class="form-label">Created By (Name)</label>
-        <input type="text" class="form-control" id="createdByName" [(ngModel)]="jobData.createdBy.name" name="createdByName">
-      </div>
-      <div class="col-md-6 mb-3">
-        <label for="createdByEmail" class="form-label">Created By (Email)</label>
-        <input type="email" class="form-control" id="createdByEmail" [(ngModel)]="jobData.createdBy.email" name="createdByEmail">
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-6 mb-3">
-        <label for="isActive" class="form-label">Is Active</label>
-        <select class="form-control" id="isActive" [(ngModel)]="jobData.isActive" name="isActive">
-          <option [value]="true">Active</option>
-          <option [value]="false">Inactive</option>
-        </select>
-      </div>
-    </div>
+    
+
     <button type="button" class="btn btn-primary" (click)="updateJob()">Update Job</button>
   </form>
 </div>
