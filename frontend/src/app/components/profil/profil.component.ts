@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from '../../models/user.model';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import { HttpClient } from '@angular/common/http';
 import { NgModule } from '@angular/core';
@@ -13,6 +13,7 @@ import { AuthService } from '../../services/auth.service';
   imports: [
     CommonModule,
     FormsModule, 
+    RouterModule
   ],
   standalone: true,
   templateUrl: './profil.component.html',
@@ -27,18 +28,13 @@ export class ProfilComponent implements OnInit {
 
   ngOnInit(): void {
     this.userService.getProfile().subscribe({
-      next: (profile) => {
-        this.user = profile;
-
-        // Prepend backend URL to the photo path if it exists
-        if (this.user.photo) {
-          this.user.photo = `http://localhost:3000/${this.user.photo}`;
-        }
-
-        console.log('User profile photo:', this.user.photo);
-        console.log('User profile fetched:', this.user);
+      next: (user) => {
+        this.user = user;
+        console.log('User data:', this.user); // Check if all fields are populated
       },
-      error: (err) => console.error('Error fetching profile:', err)
+      error: (err) => {
+        console.error('Failed to fetch user profile', err);
+      }
     });
   }
   // .
@@ -56,7 +52,7 @@ export class ProfilComponent implements OnInit {
     console.log('Edit mode:', this.isEditing);
   }
   isCandidat(): boolean {
-    return this.authService.getUserRole()=='CANDIDAT';
+    return this.user?.role === 'CANDIDAT'; // Ensure the role matches your logic
   }
 
   updateProfile(): void {
