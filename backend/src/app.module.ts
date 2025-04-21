@@ -13,6 +13,8 @@ import { join } from 'path';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { JobOfferModule } from './job-offer/job-offer.module';
 import { ChatModule } from './chat/chat.module';
+import { CandidaturesModule } from './candidature/candidature.module';
+import { MailModule } from './mail/mail.module';
 
 
 
@@ -55,7 +57,7 @@ import { ChatModule } from './chat/chat.module';
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true,
     }),
-     AuthModule, UsersModule, JobOfferModule, ChatModule],
+     AuthModule, UsersModule, JobOfferModule, ChatModule, CandidaturesModule,MailModule,],
   controllers: [AppController],
   providers: [
     AppService,{

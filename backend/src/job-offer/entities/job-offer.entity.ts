@@ -1,5 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, CreateDateColumn, UpdateDateColumn, OneToMany } from 'typeorm';
 import { User } from 'src/users/entities/user.entity';
+import { Candidature } from 'src/candidature/entities/candidature.entity';
 
 @Entity()
 export class JobOffer {
@@ -50,6 +51,9 @@ export class JobOffer {
 
   @ManyToOne(() => User, (user) => user.jobOffers, { eager: true })
   createdBy: User; 
+
+  @OneToMany(() => Candidature, (candidature) => candidature.jobOffer)
+  candidatures: Candidature[];
 
   @Column({ default: true })
   isActive: boolean; 

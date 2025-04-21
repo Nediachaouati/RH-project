@@ -1,3 +1,4 @@
+import { Candidature } from "src/candidature/entities/candidature.entity";
 import { JobOffer } from "src/job-offer/entities/job-offer.entity";
 import { Role } from "src/role.enum";
 import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
@@ -60,5 +61,8 @@ export class User {
 
     @OneToMany(() => JobOffer, (jobOffer) => jobOffer.createdBy)
     jobOffers: JobOffer[];
+
+    @OneToMany(() => Candidature, (candidature) => candidature.candidate)
+    candidatures: Candidature[];
 
 }
