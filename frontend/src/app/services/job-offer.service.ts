@@ -28,7 +28,9 @@ export class JobOfferService {
   getJobOfferById(id: number): Observable<JobOffer> {
     return this.http.get<JobOffer>(`${this.apiUrl}/${id}`, { headers: this.getAuthHeaders() });
   }
-
+  getJobDetails(id: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}/offer/${id}`,{ headers: this.getAuthHeaders() });
+  }
   createJobOffer(jobOffer: JobOffer): Observable<JobOffer> {
     return this.http.post<JobOffer>(`${this.apiUrl}/add`, jobOffer, { headers: this.getAuthHeaders() });
   }

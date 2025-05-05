@@ -1,0 +1,26 @@
+<div class="container mt-5">
+    <h2>Relevant Candidatures</h2>
+    <div *ngIf="relevantCandidatures.length > 0; else noCandidatures">
+      <div *ngFor="let candidature of relevantCandidatures" class="card mb-3">
+        <div class="card-body">
+          <h5 class="card-title">{{ candidature.candidate?.name }}</h5>
+          <p class="card-text">
+            <strong>Email:</strong> {{ candidature.candidate?.email }}<br>
+            <strong>Status:</strong> {{ candidature.status }}<br>
+            <strong>AI Score:</strong> {{ candidature.aiScore  }}<br>
+            <strong>Job Title:</strong> {{ candidature.jobOffer?.title }}<br>
+            <strong>Submitted On:</strong> {{ candidature.createdAt}}
+          </p>
+          <div class="mt-2">
+            <a [href]="'http://localhost:3000/' + candidature.cvPath" target="_blank" class="btn btn-sm btn-outline-primary me-2">View CV</a>
+            <a [href]="'http://localhost:3000/' + candidature.coverLetterPath" target="_blank" class="btn btn-sm btn-outline-secondary">View Cover Letter</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <ng-template #noCandidatures>
+      <p>No relevant candidatures found for this offer.</p>
+    </ng-template>
+  </div>
+  
