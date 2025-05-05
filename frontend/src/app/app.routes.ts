@@ -10,6 +10,9 @@ import { AddRhComponent } from './admin-components/add-rh/add-rh.component';
 import { UpdateJobComponent } from './components/update-job/update-job.component';
 import { UpdateUserComponent } from './admin-components/update-user/update-user.component';
 import { UpdatePasswordComponent } from './components/update-password/update-password.component';
+import { PostulComponent } from './components/postul/postul.component';
+import { RelevantCandidaturesComponent } from './components/relevant-candidatures/relevant-candidatures.component';
+import { MyCandidaturesComponent } from './components/my-candidatures/my-candidatures.component';
 
 export const routes: Routes = [
     { path: '', component: HomeComponent }, 
@@ -24,6 +27,11 @@ export const routes: Routes = [
     { path: 'update-user/:id', component: UpdateUserComponent },
     { path: 'update-password', component: UpdatePasswordComponent },
     { path: 'update-job/:id', component: UpdateJobComponent },
+    { path: 'postul-page/:id', component: PostulComponent },
+    { path: 'candidatures/rh-candidatures/offer/:id/relevant', component: RelevantCandidaturesComponent },
+    { path: 'my-candidatures', component: MyCandidaturesComponent }
+
+
 
 
   ];

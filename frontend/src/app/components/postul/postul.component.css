@@ -1,0 +1,25 @@
+.job-details {
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.job-details .card-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.job-details .card-body p {
+  font-size: 1rem;
+  margin: 10px 0;
+}
+
+.job-details .card-body p strong {
+  color: #007bff;
+}
+
+.job-details .card-body i {
+  color: #007bff;
+  margin-right: 8px;
+}

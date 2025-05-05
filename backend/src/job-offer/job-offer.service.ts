@@ -135,5 +135,16 @@ export class JobOfferService {
   
     return jobOffer;
   }
+  async findOneForCandidat(id: number): Promise<JobOffer> {
+    const jobOffer = await this.jobOfferRepository.findOne({
+      where: { id },
+    });
+  
+    if (!jobOffer) {
+      throw new NotFoundException(`Offre d’emploi avec l’ID ${id} non trouvée`);
+    }
+  
+    return jobOffer;
+  }
  
 }

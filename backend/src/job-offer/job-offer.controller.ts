@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Request, Delete, UseGuards, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Request, Delete, UseGuards, Query, NotFoundException } from '@nestjs/common';
 import { JobOfferService } from './job-offer.service';
 import { CreateJobOfferDto } from './dto/create-job-offer.dto';
 import { UpdateJobOfferDto } from './dto/update-job-offer.dto';
@@ -7,6 +7,7 @@ import { RolesGuard } from 'src/auth/guards/roles.guard';
 import { Roles } from 'src/auth/decorators/roles.decorator';
 import { Role } from 'src/role.enum';
 import { Public } from 'src/auth/decorators/public.decorator';
+import { JobOffer } from './entities/job-offer.entity';
 
 @Controller('job-offer')
 @UseGuards(JwtAuthGuard, RolesGuard) 
@@ -49,5 +50,14 @@ export class JobOfferController {
   @Roles(Role.RH)
   findOne(@Param('id') id: string, @Request() req) {
   return this.jobOfferService.findOne(+id, req.user);
+}
+
+@Get('offer/:id')
+async findForCandidat(@Param('id') id: number): Promise<JobOffer> {
+  const jobOffer = await this.jobOfferService.findOneForCandidat(id);
+  if (!jobOffer) {
+    throw new NotFoundException(`Offre d’emploi avec l’ID ${id} non trouvée`);
+  }
+  return jobOffer;
 }
 }

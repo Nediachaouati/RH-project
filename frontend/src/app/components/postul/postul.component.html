@@ -1,0 +1,60 @@
+
+<br><br><br><div class="container">
+    &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;<div class="row">
+      <!-- Job Details (Left Side) -->
+      <div class="col-md-4">
+        <div class="job-details card p-4">
+          <h3  class="card-title mb-3">job title: {{ jobDetails.title }}</h3>
+  
+          <div class="card-body">
+            <!-- <p><strong><i class="bi bi-calendar-even"></i> Date:</strong> {{ jobDetails.date }}</p> -->
+            <p><strong><i class="bi bi-briefcase"></i> Job Type:</strong> {{ jobDetails.jobType }}</p>
+            <p><strong><i class="bi bi-person-fill"></i> Experience Required:</strong> {{ jobDetails.experience }}+</p>
+            <p><strong><i class="bi bi-graduation-cap"></i> Education Level:</strong> {{ jobDetails.educationLevel }}</p>
+            <p><strong><i class="bi bi-cash-stack"></i> Salary Range:</strong> {{ jobDetails.salaryRange }}</p>
+            <p><strong><i class="bi bi-gender-ambiguous"></i> Gender:</strong> {{ jobDetails.gender }}</p>
+            <p><strong><i class="bi bi-check-circle"></i> Requirements:</strong> {{ jobDetails.requirements }}</p>
+            <p><strong><i class="bi bi-calendar-x"></i> Expiration Date:</strong> {{ jobDetails.expirationDate }}</p>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Additional Content (Right Side) -->
+      <div class="col-md-8">
+        <form [formGroup]="applicationForm" (ngSubmit)="onSubmit()">
+          <div class="form-group">
+            <label for="cv">CV (PDF)</label>
+            <input
+              type="file"
+              class="form-control"
+              id="cv"
+              (change)="onFileSelected($event, 'cv')"
+              [ngClass]="{ 'is-invalid': applicationForm.controls['cv'].invalid && applicationForm.controls['cv'].touched }"
+              required
+            />
+            <div *ngIf="applicationForm.controls['cv'].invalid && applicationForm.controls['cv'].touched" class="invalid-feedback">
+              CV is required.
+            </div>
+          </div>
+      <br>
+          <div class="form-group">
+            <label for="motivationLetter">Motivation Letter (PDF)</label>
+            <input
+              type="file"
+              class="form-control"
+              id="motivationLetter"
+              (change)="onFileSelected($event, 'motivationLetter')"
+              [ngClass]="{ 'is-invalid': applicationForm.controls['motivationLetter'].invalid && applicationForm.controls['motivationLetter'].touched }"
+              required
+            />
+            <div *ngIf="applicationForm.controls['motivationLetter'].invalid && applicationForm.controls['motivationLetter'].touched" class="invalid-feedback">
+              Motivation Letter is required.
+            </div>
+          </div>
+      <br>
+          <button type="submit" class="btn btn-primary" [disabled]="applicationForm.invalid">
+            Submit Application
+          </button>
+        </form>
+        <hr>
+      </div>

@@ -1,0 +1,20 @@
+<div class="container mt-4">
+    <h2>Mes Candidatures</h2>
+  
+    <div *ngIf="myCandidatures.length === 0">Aucune candidature trouvée.</div>
+  
+    <div class="card mb-3" *ngFor="let candidature of myCandidatures">
+      <div class="card-body">
+        <h5 class="card-title">{{ candidature.jobOffer.title }}</h5>
+        <p class="card-text">{{ candidature.jobOffer.description }}</p>
+        <p>Status: <strong>{{ candidature.status }}</strong></p>
+        <p>Score AI: {{ candidature.aiScore }}</p>
+  
+        <div class="mt-2">
+          <a class="btn btn-primary btn-sm" [href]="getPdfUrl(candidature.cvPath)" target="_blank">Voir CV</a>&nbsp;
+          <a class="btn btn-secondary btn-sm" [href]="getPdfUrl(candidature.coverLetterPath)" target="_blank">Voir Lettre de motivation</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  

@@ -42,14 +42,15 @@
         <div *ngFor="let job of filteredJobListings" class="job-item d-flex justify-content-between align-items-center p-3 mb-3 border rounded">
           <div>
             <h5 class="mb-1">{{ job.title }}</h5>
-            <p *ngIf="isAdmin()" class="mb-1">{{ job.createdBy?.name || 'Unknown Company' }}</p><p>language: <b>{{ job?.language }}</b></p>
+            <p *ngIf="isAdmin()" class="mb-1">{{ job.createdBy?.name|| 'Unknown Company' }}</p><p>language: <b>{{ job?.language }}</b></p>
             <small>Posted on: {{ job.postedDate }}</small>
           </div>
           <div class="d-flex">
             <button class="btn btn-primary me-2" (click)="openJobDetails(job)" data-bs-toggle="modal" data-bs-target="#jobDetailsModal">Voir Plus</button>
-            <button class="btn btn-primary" (click)="applyForJob()" *ngIf="isCandidat()">Postuler</button>
+            <button class="btn btn-primary" [routerLink]="['/postul-page', job.id]" *ngIf="isCandidat()">Postuler</button>
             <button class="btn btn-primary" *ngIf="isRH()" (click)="deleteJob(job.id)">Delete</button>
             <button class="btn btn-primary" *ngIf="isRH()" [routerLink]="['/update-job', job.id]">Update</button>
+            <button class="btn btn-success ms-2" *ngIf="isRH()" [routerLink]="['/candidatures/rh-candidatures/offer', job.id, 'relevant']">Relevant Candidates</button>
           </div>
         </div>
       </div>
@@ -62,7 +63,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="jobDetailsModalLabel">{{ selectedJob?.title }}</h5>
+        <h5 class="modal-title" id="jobDetailsModalLabel">{{ selectedJob?.title }}</h5> 
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="closeJobDetails()"></button>
       </div>
       <div class="modal-body">
@@ -80,7 +81,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="closeJobDetails()">Close</button>
-        <button type="button" class="btn btn-primary" (click)="applyForJob()" *ngIf="isCandidat()">Postuler</button>
+        <button type="button" class="btn btn-primary" [routerLink]="['/postul-page', selectedJob?.id]"  *ngIf="isCandidat()">Postuler</button>
       </div>
     </div>
   </div>
