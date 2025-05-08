@@ -45,4 +45,7 @@ export class NavbarComponent {
   IsCandidat(): boolean {
     return this.authService.getUserRole()=='CANDIDAT';
   }
+  IsRh(): boolean {
+    return this.authService.getUserRole()=='RH';
+  }
 }

@@ -1,0 +1,25 @@
+<div class="container mt-4">
+    <h2>All Recent Candidatures </h2>
+  
+    <div *ngIf="myCandidatures.length === 0">Aucune candidature trouvée.</div>
+  
+    <div class="card mb-3" *ngFor="let candidature of myCandidatures">
+      <div class="card-body">
+        <h5 class="card-title">{{ candidature.jobOffer.title }}</h5>
+        <p class="card-text">{{ candidature.jobOffer.description }}</p>
+        <p>Status: 
+        <strong  [ngClass]="{
+            'text-warning': candidature.status === 'pending',
+            'text-danger': candidature.status === 'rejected',
+            'text-success': candidature.status === 'accepted'}">
+            {{ candidature.status }}</strong></p>
+        <p><span [ngClass]="{'text-success':candidature.aiScore>0.4,'text-danger':candidature.aiScore < 0.4}" >Score AI: {{ candidature.aiScore }}</span></p>
+  
+        <div class="mt-2">
+          <a class="btn btn-primary btn-sm" [href]="'http://localhost:3000/' + candidature.cvPath" target="_blank">view CV</a>&nbsp;
+          <a class="btn btn-secondary btn-sm" [href]="'http://localhost:3000/' + candidature.coverLetterPath" target="_blank">view Lettre de motivation</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  

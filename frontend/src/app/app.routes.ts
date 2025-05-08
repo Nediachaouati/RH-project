@@ -13,6 +13,7 @@ import { UpdatePasswordComponent } from './components/update-password/update-pas
 import { PostulComponent } from './components/postul/postul.component';
 import { RelevantCandidaturesComponent } from './components/relevant-candidatures/relevant-candidatures.component';
 import { MyCandidaturesComponent } from './components/my-candidatures/my-candidatures.component';
+import { AllCandidaturesComponent } from './components/all-candidatures/all-candidatures.component';
 
 export const routes: Routes = [
     { path: '', component: HomeComponent }, 
@@ -29,7 +30,8 @@ export const routes: Routes = [
     { path: 'update-job/:id', component: UpdateJobComponent },
     { path: 'postul-page/:id', component: PostulComponent },
     { path: 'candidatures/rh-candidatures/offer/:id/relevant', component: RelevantCandidaturesComponent },
-    { path: 'my-candidatures', component: MyCandidaturesComponent }
+    { path: 'my-candidatures', component: MyCandidaturesComponent },
+    { path: 'all-candidatures', component: AllCandidaturesComponent }
 
 
 
