@@ -2,73 +2,84 @@
   position: fixed;
   bottom: 20px;
   right: 20px;
-  background: #007bff;
+  background: #4a90e2;
   color: white;
   border: none;
   border-radius: 50%;
-  width: 50px;
-  height: 50px;
-  font-size: 24px;
+  width: 60px;
+  height: 60px;
+  font-size: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transition: background 0.3s ease;
 }
 
 .chat-toggle:hover {
-  background: #0056b3;
+  background: #357ab7;
 }
-.fa-comment{
 
-margin-left: -6px;
-margin-top: -16px;
+.fa-comment {
+  margin: 0;
 }
+
 .chat-box {
   position: fixed;
-  bottom: 80px; /* Adjusted to avoid overlap with the toggle button */
+  bottom: 100px;
   right: 20px;
   width: 100%;
-  max-width: 300px;
-  margin: 0;
-  background: #f1f1f1;
+  max-width: 350px;
+  background: #ffffff;
   border: 1px solid #ccc;
-  padding: 10px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  border-radius: 10px;
+  padding: 15px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
 }
 
 .messages {
-  max-height: 200px; /* Reduced height */
+  max-height: 250px;
   overflow-y: auto;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
+  padding-right: 5px;
 }
 
 .message {
-  margin: 5px 0;
-  padding: 5px;
-  background: #e0e0e0;
-  border-radius: 5px;
+  margin: 6px 0;
+  padding: 8px 12px;
+  background: #f1f1f1;
+  border-radius: 8px;
+  word-wrap: break-word;
 }
 
 .input-area {
   display: flex;
   gap: 10px;
+  align-items: center;
 }
 
-input {
+.input-area input {
   flex: 1;
   padding: 10px;
+  font-size: 14px;
   border: 1px solid #ccc;
-  border-radius: 5px;
+  border-radius: 8px;
 }
 
-button {
-  padding: 10px 20px;
-  background: #007bff;
+.input-area button {
+  padding: 10px 16px;
+  font-size: 14px;
+  background: #4a90e2;
   color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 8px;
   cursor: pointer;
+  transition: background 0.3s ease;
 }
 
-button:hover {
-  background: #0056b3;
+.input-area button:hover {
+  background: #357ab7;
 }

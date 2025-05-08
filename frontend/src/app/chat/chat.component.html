@@ -1,16 +1,13 @@
 <button class="chat-toggle" (click)="toggleChat()">
   <i class="fa-solid fa-comment"></i>
 </button>
+
 <div class="chat-box" *ngIf="isChatVisible">
   <div class="messages">
     <div *ngFor="let message of messages" class="message">{{ message }}</div>
   </div>
   <div class="input-area">
-    <input
-      type="text"
-      [(ngModel)]="prompt"
-      placeholder="Type your message..."
-    />
+    <input type="text" [(ngModel)]="prompt" placeholder="Type your message..." />
     <button (click)="sendMessage()">Send</button>
   </div>
 </div>

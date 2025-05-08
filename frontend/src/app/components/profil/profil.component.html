@@ -1,13 +1,12 @@
-<div class="container rounded bg-white mt-5 mb-5">
+<div class="container rounded bg-white mt-5 mb-5 shadow-lg">
     <div class="row">
         <!-- Left Section: Profile Picture and Basic Info -->
         <div class="col-md-3 border-right">
             <div class="d-flex flex-column align-items-center text-center p-3 py-5">
-                <img class="rounded-circle mt-5" width="150px" [src]="user?.photo || 'https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg'" alt="Profile Picture">
-                <span class="font-weight-bold">{{ user?.name }}</span>
-                <span class="text-black-50">{{ user?.email }}</span><br><br>
-                <button class="btn profile-button me-2" type="button" [routerLink]="'/update-password'">Changer mot de passe</button>
-
+                <img class="rounded-circle mt-5" width="150px" [src]="user.photo || 'https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg'" alt="Profile Picture">
+                <span class="font-weight-bold mt-3" style="font-size: 20px;">{{ user?.name }}</span>
+                <span class="text-muted" style="font-size: 14px;">{{ user?.email }}</span><br><br>
+                <button class="btn btn-primary w-75 mt-3" type="button" [routerLink]="'/update-password'">Change Password</button>
             </div>
         </div>
 
@@ -15,7 +14,7 @@
         <div class="col-md-6 border-right">
             <div class="p-3 py-5">
                 <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h4 class="text-right">Profile Settings</h4>
+                    <h4 class="text-dark">Profile Settings</h4>
                 </div>
                 <form>
                     <div class="row mt-2">
@@ -32,31 +31,31 @@
                         <div class="col-md-6">
                             <label class="labels">Phone Number</label>
                             <input type="text" class="form-control" [(ngModel)]="user.phoneNumber" name="phoneNumber" placeholder="Phone Number" [disabled]="isEditing">
-                          </div>
+                        </div>
                         <div class="col-md-6">
                             <label class="labels">Address</label>
                             <input type="text" class="form-control" [(ngModel)]="user.address" name="address" placeholder="Address" [disabled]="isEditing">
                         </div>
                     </div>
-                    <div class="row mt-3">
-                        <div class="col-md-6"  *ngIf="isCandidat()">
+                    <div class="row mt-3" *ngIf="isCandidat()">
+                        <div class="col-md-6">
                             <label class="labels">Birth Date</label>
                             <input type="date" class="form-control" [(ngModel)]="user.birthDate" name="birthDate" placeholder="Birth Date" [disabled]="isEditing">
                         </div>
                     </div>
                 </form>
                 <!-- Buttons Section -->
-                <div class="mt-5 text-center" > 
-                    <button class="btn profile-button me-2" type="button" (click)="updateProfile()">Save Profile</button>
-                    <button class="btn profile-button me-2" type="button" (click)="toggleEdit()">Edit Profile</button>
+                <div class="mt-5 text-center"> 
+                    <button class="btn btn-success w-75 mt-3" type="button" (click)="updateProfile()">Save Profile</button>
+                    <button class="btn btn-warning w-75 mt-3" type="button" (click)="toggleEdit()">Edit Profile</button>
                 </div>
             </div>
         </div>
 
         <!-- Right Section: Skills and Academic Information -->
-        <div class="col-md-3"  *ngIf="isCandidat()">
+        <div class="col-md-3" *ngIf="isCandidat()">
             <div class="p-3 py-5">
-                <h4 class="text-center">Skills</h4>
+                <h4 class="text-center mb-4" style="font-size: 22px;">Skills</h4>
                 <div class="row mt-3">
                     <div class="col-md-12">
                         <label class="labels">Specialty</label>
@@ -67,7 +66,7 @@
                         <textarea class="form-control" [(ngModel)]="user.experienceLevel" name="experienceLevel" placeholder="Experience Level" [disabled]="isEditing"></textarea>
                     </div>
                 </div>
-                <h4 class="text-center mt-5">Academic</h4>
+                <h4 class="text-center mt-5 mb-4" style="font-size: 22px;">Academic Info</h4>
                 <div class="row mt-3">
                     <div class="col-md-12">
                         <label class="labels">School</label>

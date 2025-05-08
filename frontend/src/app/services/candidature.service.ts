@@ -34,6 +34,15 @@ export class CandidatureService {
   getMyCandidatures() {
     return this.http.get<any[]>(`${this.apiUrl}/my-candidatures`, {headers: this.getAuthHeaders()});
   }
+  getAllCandidatures() {
+    return this.http.get<any[]>(`${this.apiUrl}/rh-candidatures`, {headers: this.getAuthHeaders()});
+  }
+  updateStatus(offerId: string, status: string) {
+    const body = { status }; // e.g., { status: 'accepted' }
+    return this.http.patch<any>(`${this.apiUrl}/rh-candidatures/${offerId}/validate`, body, {
+      headers: this.getAuthHeaders()
+    });
+  }
   
 
 }
