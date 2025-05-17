@@ -135,7 +135,7 @@ export class CandidaturesService {
     candidature.status = status;
     await this.candidatureRepository.save(candidature);
 
-    // Envoyer un email au candidat
+    // send mail 
     await this.mailService.sendCandidatureStatusEmail(
       candidature.candidate.email,
       candidature.candidate.name || 'Candidat',
@@ -181,9 +181,9 @@ export class CandidaturesService {
     });
   }
 
-  //Lister les candidatures pour une offre spécifique
+  //List de candidats d'un ofre
   async getCandidaturesByOffer(rhId: number, jobOfferId: number, minScore?: number): Promise<Candidature[]> {
-    // Vérifier que l'offre appartient au RH
+    // Vérifier que l'offre 
     const jobOffer = await this.jobOfferRepository.findOne({
       where: { id: jobOfferId, createdBy: { id: rhId } },
       relations: ['createdBy'],
@@ -212,4 +212,37 @@ export class CandidaturesService {
   async getRelevantCandidaturesByOffer(rhId: number, jobOfferId: number, minScore: number = 0.4): Promise<Candidature[]> {
     return this.getCandidaturesByOffer(rhId, jobOfferId, minScore);
   }
+
+  // candidature.service.ts
+async countByStatus() {
+  return this.candidatureRepository
+    .createQueryBuilder('candidature')
+    .select('candidature.status', 'status')
+    .addSelect('COUNT(*)', 'count')
+    .groupBy('candidature.status')
+    .getRawMany();
+}
+
+async averageScorePerOffer() {
+  return this.candidatureRepository
+    .createQueryBuilder('candidature')
+    .leftJoin('candidature.jobOffer', 'jobOffer')
+    .select('jobOffer.id', 'jobOfferId')
+    .addSelect('jobOffer.title', 'title')
+    .addSelect('AVG(candidature.aiScore)', 'averageScore')
+    .groupBy('jobOffer.id')
+    .addGroupBy('jobOffer.title')
+    .getRawMany();
+}
+
+async candidaturesPerMonth() {
+  return this.candidatureRepository
+    .createQueryBuilder('candidature')
+    .select("TO_CHAR(candidature.createdAt, 'YYYY-MM')", 'month')
+    .addSelect('COUNT(*)', 'count')
+    .groupBy("TO_CHAR(candidature.createdAt, 'YYYY-MM')")
+    .orderBy('month', 'ASC')
+    .getRawMany();
+}
+
 }

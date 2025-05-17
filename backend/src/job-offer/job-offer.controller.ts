@@ -60,4 +60,11 @@ async findForCandidat(@Param('id') id: number): Promise<JobOffer> {
   }
   return jobOffer;
 }
+
+@Get('stats/per-user')
+@Roles(Role.RH)
+async getStatsPerUser() {
+  return this.jobOfferService.getJobOffersPerUser();
+}
+
 }

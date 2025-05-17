@@ -31,6 +31,9 @@ export class CandidatureService {
   getRelevantCandidatures(offerId: string) {
     return this.http.get<any[]>(`${this.apiUrl}/rh-candidatures/offer/${offerId}/relevant`, {headers: this.getAuthHeaders()});
   }
+  getAllcandidaturesOneoffre(offerId: string) {
+    return this.http.get<any[]>(`${this.apiUrl}/rh-candidatures/offer/${offerId}`, {headers: this.getAuthHeaders()});
+  }
   getMyCandidatures() {
     return this.http.get<any[]>(`${this.apiUrl}/my-candidatures`, {headers: this.getAuthHeaders()});
   }
@@ -38,11 +41,21 @@ export class CandidatureService {
     return this.http.get<any[]>(`${this.apiUrl}/rh-candidatures`, {headers: this.getAuthHeaders()});
   }
   updateStatus(offerId: string, status: string) {
-    const body = { status }; // e.g., { status: 'accepted' }
+    const body = { status }; 
     return this.http.patch<any>(`${this.apiUrl}/rh-candidatures/${offerId}/validate`, body, {
       headers: this.getAuthHeaders()
     });
   }
-  
+  countByStatus(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/stats/by-status`);
+  }
+
+  averageScorePerOffer(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/stats/average-score-per-offer`);
+  }
+
+  candidaturesPerMonth(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/stats/per-month`);
+  }
 
 }

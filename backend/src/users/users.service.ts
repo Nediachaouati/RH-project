@@ -23,7 +23,9 @@ export class UsersService {
     });
   }
 
-
+  async softDeleteUser(id: number): Promise<void> {
+    await this.usersRepository.softDelete(id); // Marks the user as deleted
+  }
   // Récupérer un utilisateur par ID
   async findOneById(id: number): Promise<User> {
     const user = await this.usersRepository.findOne({ where: { id } });

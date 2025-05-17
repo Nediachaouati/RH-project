@@ -21,13 +21,13 @@ export class Candidature {
   })
   status: CandidatureStatus;
 
-  @Column({ type: 'varchar', length: 255, nullable: true }) // Explicite VARCHAR
+  @Column({ type: 'varchar', length: 255, nullable: true })
   cvPath: string | null;
 
-  @Column({ type: 'varchar', length: 255, nullable: true }) // Explicite VARCHAR
+  @Column({ type: 'varchar', length: 255, nullable: true }) 
   coverLetterPath: string | null;
 
-  @Column({ type: 'float', nullable: true }) // Score IA entre 0 et 1
+  @Column({ type: 'float', nullable: true }) // entre 0 et 1 e score
   aiScore: number | null;
 
   @CreateDateColumn()

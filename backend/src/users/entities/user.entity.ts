@@ -1,7 +1,7 @@
 import { Candidature } from "src/candidature/entities/candidature.entity";
 import { JobOffer } from "src/job-offer/entities/job-offer.entity";
 import { Role } from "src/role.enum";
-import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity()
 export class User {
@@ -64,5 +64,7 @@ export class User {
 
     @OneToMany(() => Candidature, (candidature) => candidature.candidate)
     candidatures: Candidature[];
+    @DeleteDateColumn({ nullable: true })  // Soft delete column
+    deleted_at: Date;
 
 }

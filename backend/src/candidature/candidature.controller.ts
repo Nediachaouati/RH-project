@@ -106,4 +106,19 @@ export class CandidaturesController {
   ) {
     return this.candidaturesService.validateCandidature(req.user.id, candidatureId, status);
   }
+  @Get('stats/by-status')
+  @UseGuards(JwtAuthGuard)
+countByStatus() {
+  return this.candidaturesService.countByStatus();
+}
+
+@Get('stats/average-score-per-offer')
+averageScorePerOffer() {
+  return this.candidaturesService.averageScorePerOffer();
+}
+
+@Get('stats/per-month')
+candidaturesPerMonth() {
+  return this.candidaturesService.candidaturesPerMonth();
+}
 }

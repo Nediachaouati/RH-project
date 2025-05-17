@@ -10,14 +10,38 @@ import { CandidatureService } from '../../services/candidature.service';
 })
 export class AllCandidaturesComponent  implements OnInit{
   myCandidatures:any[]=[];
-  constructor(private myCandService: CandidatureService){}
+  groupedCandidatures: { [title: string]: any[] } = {};
+  activeJob: string = ''; // Tracks active job title for sidebar
+
+  constructor(private myCandService: CandidatureService) {}
+
   ngOnInit(): void {
     this.myCandService.getAllCandidatures().subscribe({
-      next:(data)=>{this.myCandidatures=data;},
-      error:(err)=>{console.error('failed to load condidatures',err);}
+      next: (data) => {
+        this.myCandidatures = data;
+        this.groupByJobOfferTitle();
+      },
+      error: (err) => {
+        console.error('failed to load candidatures', err);
+      }
     });
   }
-  getPdfUrl(path:string): string{
+
+  groupByJobOfferTitle(): void {
+    this.groupedCandidatures = {};
+
+    for (const cand of this.myCandidatures) {
+      const title = cand.jobOffer?.title || 'Sans titre';
+
+      if (!this.groupedCandidatures[title]) {
+        this.groupedCandidatures[title] = [];
+      }
+
+      this.groupedCandidatures[title].push(cand);
+    }
+  }
+
+  getPdfUrl(path: string): string {
     return `http://localhost:3000/${path.replace(/\\/g, '/')}`;
   }
 }
