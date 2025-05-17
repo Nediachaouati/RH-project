@@ -1,6 +1,10 @@
 <div class="container mt-4">
-  <h2>Candidatures of the Offer N°{{offer}}</h2>
+  <h2>📄 Candidatures of the Offer N°{{offer}}</h2>
  
+
+  <div *ngIf="relevantCandidatures.length === 0" class="alert alert-warning text-center">
+    😕 Aucune candidature trouvée.
+  </div>
 <div class="card mb-3" *ngFor="let candidature of relevantCandidatures">
   <div class="card-body d-flex justify-content-between align-items-stretch">
 

@@ -1,0 +1,193 @@
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HR Dashboard</title>
+
+
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <h1><i class="bi bi-bar-chart-fill"></i>HR Dashboard</h1>
+      <div class="filter-group">
+        <select>
+          <option value="">Filter by Date Range</option>
+          <option value="last30">Last 30 Days</option>
+          <option value="last90">Last 90 Days</option>
+          <option value="year">This Year</option>
+        </select>
+        <select>
+          <option value="">Filter by User</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Chart Grid -->
+    <div class="row row-cols-1 row-cols-md-2 g-3">
+      <!-- Job Offers per User (Bar Chart) -->
+      <div class="col">
+        <div class="chart-card">
+          <h3><i class="bi bi-briefcase-fill"></i>Job Offers per User</h3>
+          <canvas id="jobOffersChart"></canvas>
+        </div>
+      </div>
+
+      <!-- Candidatures by Status (Pie Chart) -->
+      <div class="col">
+        <div class="chart-card">
+          <h3><i class="bi bi-pie-chart-fill"></i>Candidatures by Status</h3>
+          <canvas id="statusChart"></canvas>
+        </div>
+      </div>
+
+      <!-- Average Score per Offer (Bar Chart) -->
+      <div class="col">
+        <div class="chart-card">
+          <h3><i class="bi bi-star-fill"></i>Average Score per Offer</h3>
+          <canvas id="scoreChart"></canvas>
+        </div>
+      </div>
+
+      <!-- Candidatures per Month (Line Chart) -->
+      <div class="col">
+        <div class="chart-card">
+          <h3><i class="bi bi-graph-up"></i>Candidatures per Month</h3>
+          <canvas id="monthChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      Dashboard updated as of May 17, 2025
+    </div>
+  </div>
+
+  <script>
+    // Job Offers per User (Bar Chart)
+    const jobOffersCtx = document.getElementById('jobOffersChart').getContext('2d');
+    new Chart(jobOffersCtx, {
+      type: 'bar',
+      data: {
+        labels: ['User1', 'User2', 'User3'],
+        datasets: [{
+          label: 'Job Offers',
+          data: [5, 3, 7],
+          backgroundColor: '#3b82f6',
+          hoverBackgroundColor: '#1e40af',
+          borderColor: '#1e40af',
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: { backgroundColor: '#1e40af' }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            title: { display: true, text: 'Count' }
+          },
+          x: {
+            title: { display: true, text: 'User' }
+          }
+        }
+      }
+    });
+
+    // Candidatures by Status (Pie Chart)
+    const statusCtx = document.getElementById('statusChart').getContext('2d');
+    new Chart(statusCtx, {
+      type: 'pie',
+      data: {
+        labels: ['Pending', 'Accepted', 'Rejected'],
+        datasets: [{
+          label: 'Candidatures Status',
+          data: [10, 5, 3],
+          backgroundColor: ['#f59e0b', '#10b981', '#ef4444'],
+          hoverBackgroundColor: ['#d97706', '#059669', '#dc2626'],
+          borderColor: '#ffffff',
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { position: 'right' },
+          tooltip: { backgroundColor: '#1e40af' }
+        }
+      }
+    });
+
+    // Average Score per Offer (Bar Chart)
+    const scoreCtx = document.getElementById('scoreChart').getContext('2d');
+    new Chart(scoreCtx, {
+      type: 'bar',
+      data: {
+        labels: ['Senior Engineer', 'Frontend Developer', 'Data Scientist'],
+        datasets: [{
+          label: 'Average Score',
+          data: [0.85, 0.65, 0.75],
+          backgroundColor: '#8b5cf6',
+          hoverBackgroundColor: '#6d28d9',
+          borderColor: '#6d28d9',
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: { backgroundColor: '#1e40af' }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            title: { display: true, text: 'Score' }
+          },
+          x: {
+            title: { display: true, text: 'Job Offer' }
+          }
+        }
+      }
+    });
+
+    // Candidatures per Month (Line Chart)
+    const monthCtx = document.getElementById('monthChart').getContext('2d');
+    new Chart(monthCtx, {
+      type: 'line',
+      data: {
+        labels: ['2025-01', '2025-02', '2025-03'],
+        datasets: [{
+          label: 'Candidatures',
+          data: [50, 60, 45],
+          borderColor: '#1e40af',
+          backgroundColor: 'rgba(30, 64, 175, 0.1)',
+          fill: true,
+          tension: 0.4,
+          borderWidth: 2
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: { backgroundColor: '#1e40af' }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            title: { display: true, text: 'Candidatures' }
+          },
+          x: {
+            title: { display: true, text: 'Month' }
+          }
+        }
+      }
+    });
+  </script>

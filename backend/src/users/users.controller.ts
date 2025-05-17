@@ -105,7 +105,7 @@ export class UsersController {
   @Roles(Role.ADMIN)
   @Delete(':id')
   async deleteUser(@Param('id') id: string) {
-    await this.usersService.delete(+id);
+    await this.usersService.softDeleteUser(+id);
     return { message: `Utilisateur avec l'ID ${id} supprimé avec succès` };
   }
 

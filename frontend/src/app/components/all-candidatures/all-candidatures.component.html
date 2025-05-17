@@ -1,25 +1,105 @@
-<div class="container mt-4">
-    <h2>All Recent Candidatures </h2>
-  
-    <div *ngIf="myCandidatures.length === 0">Aucune candidature trouvée.</div>
-  
-    <div class="card mb-3" *ngFor="let candidature of myCandidatures">
-      <div class="card-body">
-        <h5 class="card-title">{{ candidature.jobOffer.title }}</h5>
-        <p class="card-text">{{ candidature.jobOffer.description }}</p>
-        <p>Status: 
-        <strong  [ngClass]="{
-            'text-warning': candidature.status === 'pending',
-            'text-danger': candidature.status === 'rejected',
-            'text-success': candidature.status === 'accepted'}">
-            {{ candidature.status }}</strong></p>
-        <p><span [ngClass]="{'text-success':candidature.aiScore>0.4,'text-danger':candidature.aiScore < 0.4}" >Score AI: {{ candidature.aiScore }}</span></p>
-  
-        <div class="mt-2">
-          <a class="btn btn-primary btn-sm" [href]="'http://localhost:3000/' + candidature.cvPath" target="_blank">view CV</a>&nbsp;
-          <a class="btn btn-secondary btn-sm" [href]="'http://localhost:3000/' + candidature.coverLetterPath" target="_blank">view Lettre de motivation</a>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Tailwind CSS CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+  <!-- Google Fonts -->
+
+   
+
+
+  <div class="main-container">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <h3><i class="bi bi-briefcase-fill"></i>Job Offers</h3>
+      <ul>
+        <li *ngFor="let jobTitle of groupedCandidatures | keyvalue; let i = index" [ngClass]="{ 'active': activeJob === jobTitle.key }" (click)="activeJob = jobTitle.key">
+          {{ jobTitle.key }}
+        </li>
+      </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content">
+      <!-- Header Bar -->
+      <div class="header-bar">
+        <h2><i class="bi bi-file-earmark-text-fill"></i>Candidatures par Offre</h2>
+        <div class="filter-group">
+          <select>
+            <option value="">Filter by Status</option>
+            <option value="pending">Pending</option>
+            <option value="accepted">Accepted</option>
+            <option value="rejected">Rejected</option>
+          </select>
+          <select>
+            <option value="">Sort by AI Score</option>
+            <option value="high">High to Low</option>
+            <option value="low">Low to High</option>
+          </select>
         </div>
+      </div>
+
+      <!-- No Candidatures Alert -->
+      <div *ngIf="myCandidatures.length === 0" class="alert alert-warning">
+        <i class="bi bi-emoji-frown me-2"></i>Aucune candidature trouvée.
+      </div>
+
+      <!-- Job Offer Sections -->
+      <div *ngFor="let jobTitle of groupedCandidatures | keyvalue; let i = index">
+        <div class="job-section">
+          <div class="job-header" data-bs-toggle="collapse" [attr.data-bs-target]="'#collapse-' + i">
+            <h4><i class="bi bi-briefcase-fill"></i>{{ jobTitle.key }}</h4>
+            <i class="bi bi-chevron-down"></i>
+          </div>
+          <div class="collapse show" [id]="'collapse-' + i">
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-2 p-2">
+              <div class="col" *ngFor="let candidature of jobTitle.value">
+                <div class="card h-100">
+                  <div class="card-body d-flex flex-column">
+                    <p class="text-muted flex-grow-1">{{ candidature.jobOffer.description }}</p>
+                    <div class="mb-2">
+                      <span class="fw-semibold">Statut:</span>
+                      <span [ngClass]="{
+                        'badge text-warning': candidature.status === 'pending',
+                        'badge text-danger': candidature.status === 'rejected',
+                        'badge text-success': candidature.status === 'accepted'
+                      }">
+                        {{ candidature.status | titlecase }}
+                      </span>
+                    </div>
+                    <div class="mb-3">
+                      <span class="fw-semibold">Score AI:</span>
+                      <span class="ai-score" [ngClass]="{
+                        'text-success fw-semibold': candidature.aiScore > 0.4,
+                        'text-danger fw-semibold': candidature.aiScore <= 0.4
+                      }">
+                        {{ candidature.aiScore }}
+                      </span>
+                    </div>
+                    <div class="mt-auto d-flex justify-content-between">
+                      <a [href]="'http://localhost:3000/' + candidature.cvPath" target="_blank" class="btn btn-outline-primary btn-sm w-50 me-1">
+                        <i class="bi bi-file-earmark-pdf-fill"></i> CV
+                      </a>
+                      <a [href]="'http://localhost:3000/' + candidature.motivationLetterPath" target="_blank" class="btn btn-outline-secondary btn-sm w-50">
+                        <i class="bi bi-file-earmark-text-fill"></i> Lettre
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div class="footer">
+        Showing {{ myCandidatures.length }} candidature(s) across {{ (groupedCandidatures | keyvalue).length }} job offer(s)
       </div>
     </div>
   </div>
-  
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>

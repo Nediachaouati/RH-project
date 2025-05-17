@@ -1,4 +1,4 @@
-import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
+import { ForbiddenException, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { CreateJobOfferDto } from './dto/create-job-offer.dto';
 import { UpdateJobOfferDto } from './dto/update-job-offer.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -146,5 +146,89 @@ export class JobOfferService {
   
     return jobOffer;
   }
- 
+  async getJobOffersPerUser(): Promise<{ userId: number; userName: string; offerCount: number }[]> {
+    const result = await this.jobOfferRepository
+      .createQueryBuilder('jobOffer')
+      .select('jobOffer.createdById', 'userId')
+      .addSelect('user.name', 'userName')
+      .addSelect('COUNT(jobOffer.id)', 'offerCount')
+      .leftJoin('jobOffer.createdBy', 'user')
+      .groupBy('jobOffer.createdById')
+      .addGroupBy('user.name')
+      .getRawMany();
+  
+    return result.map(row => ({
+      userId: Number(row.userId),
+      userName: row.userName,
+      offerCount: Number(row.offerCount),
+    }));
+  }
+  async countOffersByUser() {
+    return this.jobOfferRepository
+      .createQueryBuilder('jobOffer')
+      .select('jobOffer.createdById', 'userId')
+      .addSelect('user.name', 'userName')
+      .addSelect('COUNT(jobOffer.id)', 'offerCount')
+      .leftJoin('jobOffer.createdBy', 'user')
+      .groupBy('jobOffer.createdById')
+      .addGroupBy('user.name')
+      .getRawMany();
+  }
+
+  async countCandidaturesPerJobOffer() {
+    return this.jobOfferRepository
+      .createQueryBuilder('jobOffer')
+      .leftJoin('jobOffer.candidatures', 'candidature')
+      .select('jobOffer.id', 'jobOfferId')
+      .addSelect('jobOffer.title', 'title')
+      .addSelect('COUNT(candidature.id)', 'applicationCount')
+      .groupBy('jobOffer.id')
+      .addGroupBy('jobOffer.title')
+      .getRawMany();
+  }
+
+  async countByJobType() {
+    try {
+      return await this.jobOfferRepository
+        .createQueryBuilder('jobOffer')
+        .select('jobOffer.jobType', 'jobType')
+        .addSelect('COUNT(*)', 'count')
+        .groupBy('jobOffer.jobType')
+        .getRawMany();
+    } catch (error) {
+      throw new InternalServerErrorException('Failed to count by job type');
+    }
+  }
+
+  async countOffersPerMonth() {
+    return this.jobOfferRepository
+      .createQueryBuilder('jobOffer')
+      .select("TO_CHAR(jobOffer.createdAt, 'YYYY-MM')", 'month')
+      .addSelect('COUNT(*)', 'count')
+      .groupBy("TO_CHAR(jobOffer.createdAt, 'YYYY-MM')")
+      .orderBy('month', 'ASC')
+      .getRawMany();
+  }
+
+  async topRecruiters(limit = 5) {
+    return this.jobOfferRepository
+      .createQueryBuilder('jobOffer')
+      .leftJoin('jobOffer.createdBy', 'user')
+      .select('user.name', 'userName')
+      .addSelect('COUNT(jobOffer.id)', 'offerCount')
+      .groupBy('user.name')
+      .orderBy('offerCount', 'DESC')
+      .limit(limit)
+      .getRawMany();
+  }
+
+  async countActiveInactiveOffers() {
+    return this.jobOfferRepository
+      .createQueryBuilder('jobOffer')
+      .select('jobOffer.isActive', 'isActive')
+      .addSelect('COUNT(*)', 'count')
+      .groupBy('jobOffer.isActive')
+      .getRawMany();
+  }
+
 }

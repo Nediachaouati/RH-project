@@ -31,7 +31,7 @@
         <h5>Rechercher</h5>
         <div class="form-group">
           <label for="jobType"></label>
-          <input type="text" class="form-control" id="jobType" [(ngModel)]="filterJobTitle" placeholder="Enter job title">
+          <input type="text" class="form-control" id="jobType" [(ngModel)]="filterJobTitle" placeholder="search ...">
         </div>
         <button class="btn btn-primary mt-3" (click)="applyFilters()">Apply Filters</button>
       </div>
@@ -51,6 +51,8 @@
             <button class="btn btn-primary" *ngIf="isRH()" (click)="deleteJob(job.id)">Delete</button>
             <button class="btn btn-primary" *ngIf="isRH()" [routerLink]="['/update-job', job.id]">Update</button>
             <button class="btn btn-success ms-2" *ngIf="isRH()" [routerLink]="['/candidatures/rh-candidatures/offer', job.id, 'relevant']">Relevant Candidates</button>
+            <!-- <button class="btn btn-warning ms-2" *ngIf="isRH()" [routerLink]="['/candidatures/rh-candidatures/offer', job.id]">All</button> -->
+
           </div>
         </div>
       </div>

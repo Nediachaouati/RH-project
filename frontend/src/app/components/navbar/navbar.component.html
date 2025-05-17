@@ -11,6 +11,9 @@
         <li class="nav-item">
           <a class="nav-link" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a>
         </li>
+        <li class="nav-item" *ngIf="IsRh()">
+          <a class="nav-link" routerLink="/dashboard">Dashboard</a>
+        </li>
         <li class="nav-item">
           <a class="nav-link" routerLink="/about" routerLinkActive="active">About Us</a>
         </li>
@@ -26,6 +29,7 @@
         <li class="nav-item" *ngIf="IsRh()">
           <a class="nav-link" routerLink="/all-candidatures">All Candidatures</a>
         </li>
+     
       </ul>
       <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
    
@@ -42,7 +46,7 @@
             alt="Profile" 
             class="rounded-circle" 
             style="width: 40px; height: 40px; object-fit: cover;">
-          <span class="ms-2">{{ this.user.name || 'Guest' }}</span>
+          <span class="ms-2" *ngIf="authService.isLoggedIn()">{{ this.user.name || 'Guest' }}</span>
         </a>
         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
           <li>
